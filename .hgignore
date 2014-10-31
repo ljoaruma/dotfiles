@@ -1,0 +1,15 @@
+syntax:glob
+# tags
+GPATH
+GRTAGS
+GTAGS
+tags
+# visual studio object file
+*.obj
+*.suo
+*.ncb
+*.user
+ve*.tmp
+# qac project file
+*.qacppsettings
+*.qacsettings

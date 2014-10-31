@@ -1,0 +1,36 @@
+[core]
+	editor = 'c:/root/bin/vim/vim.exe' -c 'set fenc=utf-8'
+	autocrlf = False
+	quotepath = false
+[merge]
+	tool = p4merge
+[mergetool "p4merge"]
+	cmd = \"C:/root/apps/Perforce/p4merge.exe\"  $BASE $LOCAL $REMOTE $MERGED
+	keepTemporaries = false
+	trustExitCode = false
+	keepBackup = false
+[diff]
+	guitool = winmerge
+	tool = winmerge
+[difftool "winmerge"]
+	path = c:/root/apps/WinMerge/WinMergeU.exe
+	cmd = \"c:/root/apps/WinMerge/WinMergeU.exe\" -r -e -x -ub -wl -dl \"Base\" -dr \"Mine\" \"$LOCAL\" \"$REMOTE\"
+[user]
+	name = 
+	email = 
+[http]
+	proxy = 
+[gui]
+	recentrepo = C:/root/tmp/repo
+[alias]
+	gr = log --graph --decorate=short --date=short --abbrev-commit --pretty=format:'%Cgreen%h %Creset%cd %Cgreen%cn %Cred%d %Creset%s'
+	lg = log --graph --oneline --decorate --branches --date=short --abbrev-commit
+	l = log --graph --oneline --decorate --date=short --abbrev-commit
+	s = status --short
+	df = diff --word-diff
+	current = show -s
+	wm = difftool -d
+[rerere]
+	enabled = true
+[mergetool]
+	keepBackup = false
