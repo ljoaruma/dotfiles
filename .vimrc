@@ -34,6 +34,7 @@ NeoBundle 'Shougo/vimshell.vim'
 " - info view
 "NeoBundle 'sjl/gundo.vim'
 "NeoBundle 'koron/minimap-vim'
+NeoBundle 'primitivorm/minimap-vim'
 NeoBundle 'vim-scripts/taglist.vim'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'vim-scripts/Visual-Mark'
@@ -56,6 +57,7 @@ NeoBundle 't9md/vim-choosewin'
 "NeoBundle 'othree/eregex.vim'
 "NeoBundle 'kana/vim-operator-user'
 "NeoBundle 'kana/vim-operator-replace'
+NeoBundle 'tyru/restart.vim'
 " - edit
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'h1mesuke/vim-alignta'
@@ -65,6 +67,9 @@ NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'kana/vim-textobj-function'
 NeoBundle 'kana/vim-textobj-syntax'
 NeoBundle 'sgur/vim-textobj-parameter'
+" - operator
+NeoBundle 'kana/vim-operator-user'
+NeoBundle 'kana/vim-operator-replace'
 " - unite
 NeoBundle 'Shougo/unite.vim'
 "NeoBundle 'Shougo/neocomplcache.vim'
@@ -316,6 +321,15 @@ let g:choosewin_statusline_replace = 0
 let g:choosewin_blink_on_land = 0
 let g:choosewin_tabline_replace = 0
 nmap - <Plug>(choosewin)
+
+" ===
+" restart
+
+command!
+\ -bar
+\ RestartWithSession
+\ let g:restart_sessionoptions = 'blank,curdir,folds,help,localoptions,tabpages'
+\ | Restart
 
 " ====
 " gift
