@@ -38,7 +38,7 @@ pygments:\
 # See gtags(1).
 #---------------------------------------------------------------------
 common:\
-	:skip=UnitTest/,Test/,Fake/,HTML/,HTML.pub/,tags,TAGS,ID,y.tab.c,y.tab.h,gtags.files,cscope.files,cscope.out,cscope.po.out,cscope.in.out,SCCS/,RCS/,CVS/,CVSROOT/,{arch}/,autom4te.cache/,*.orig,*.rej,*.bak,*~,#*#,*.swp,*.tmp,*_flymake.*,*_flymake:
+	:skip=QAC++/,Object/,UnitTest/,Test/,Fake/,HTML/,HTML.pub/,tags,TAGS,ID,y.tab.c,y.tab.h,gtags.files,cscope.files,cscope.out,cscope.po.out,cscope.in.out,.hg/,.git/,SCCS/,RCS/,CVS/,CVSROOT/,{arch}/,autom4te.cache/,*.orig,*.rej,*.bak,*~,#*#,*.swp,*.tmp,*_flymake.*,*_flymake,*.ncb,*.suo:
 #
 # Built-in parsers.
 #
@@ -98,45 +98,45 @@ exuberant-ctags|plugin-example|setting to use Exuberant Ctags plug-in parser:\
 	:langmap=VHDL\:.vhdl.vhd:\
 	:langmap=Vim\:.vim:\
 	:langmap=YACC\:.y:\
-	:gtags_parser=Asm\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=Asp\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=Awk\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=Basic\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=BETA\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=C\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=C++\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=C#\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=Cobol\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=DosBatch\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=Eiffel\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=Erlang\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=Flex\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=Fortran\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=HTML\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=Java\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=JavaScript\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=Lisp\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=Lua\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=MatLab\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=OCaml\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=Pascal\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=Perl\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=PHP\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=Python\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=REXX\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=Ruby\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=Scheme\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=Sh\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=SLang\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=SML\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=SQL\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=Tcl\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=Tex\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=Vera\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=Verilog\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=VHDL\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=Vim\:c\:/usr/lib/gtags/exuberant-ctags.la:\
-	:gtags_parser=YACC\:c\:/usr/lib/gtags/exuberant-ctags.la:
+	:gtags_parser=Asm\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=Asp\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=Awk\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=Basic\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=BETA\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+#	:gtags_parser=C\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+#	:gtags_parser=C++\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=C#\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=Cobol\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=DosBatch\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=Eiffel\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=Erlang\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=Flex\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=Fortran\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=HTML\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+#	:gtags_parser=Java\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=JavaScript\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=Lisp\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=Lua\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=MatLab\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=OCaml\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=Pascal\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=Perl\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=PHP\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=Python\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=REXX\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=Ruby\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=Scheme\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=Sh\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=SLang\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=SML\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=SQL\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=Tcl\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=Tex\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=Vera\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=Verilog\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=VHDL\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=Vim\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:\
+	:gtags_parser=YACC\:c\:/root/bin/global/lib/gtags/exuberant-ctags.dll:
 #
 # Plug-in parser to use Pygments.
 #
@@ -159,7 +159,8 @@ pygments-parser|Pygments plug-in parser:\
 	:langmap=Boo\:.boo:\
 	:langmap=Bro\:.bro:\
 	:langmap=C#\:.cs:\
-	:langmap=C++\:.c++.cc.cp.cpp.cxx.h.h++.hh.hp.hpp.hxx.C.H.inl:\
+#	:langmap=C++\:.c++.cc.cp.cpp.cxx.h.h++.hh.hp.hpp.hxx.C.H.inl:\
+	:langmap=cpp\:.c++.cc.h.hh.cpp.cxx.hxx.hpp.C.H.inl:\
 	:langmap=COBOLFree\:.cbl.CBL:\
 	:langmap=COBOL\:.cob.COB.cpy.CPY:\
 	:langmap=CUDA\:.cu.cuh:\
@@ -310,8 +311,8 @@ pygments-parser|Pygments plug-in parser:\
 	:gtags_parser=BlitzMax\:c\:/root/bin/global/lib/gtags/pygments-parser.dll:\
 	:gtags_parser=Boo\:c\:/root/bin/global/lib/gtags/pygments-parser.dll:\
 	:gtags_parser=Bro\:c\:/root/bin/global/lib/gtags/pygments-parser.dll:\
-	:gtags_parser=C#\:c\:/root/bin/global/lib/gtags/pygments-parser.dll:\
-	:gtags_parser=C++\:c\:/root/bin/global/lib/gtags/pygments-parser.dll:\
+#	:gtags_parser=C#\:c\:/root/bin/global/lib/gtags/pygments-parser.dll:\
+#	:gtags_parser=C++\:c\:/root/bin/global/lib/gtags/pygments-parser.dll:\
 	:gtags_parser=COBOLFree\:c\:/root/bin/global/lib/gtags/pygments-parser.dll:\
 	:gtags_parser=COBOL\:c\:/root/bin/global/lib/gtags/pygments-parser.dll:\
 	:gtags_parser=CUDA\:c\:/root/bin/global/lib/gtags/pygments-parser.dll:\
@@ -362,7 +363,7 @@ pygments-parser|Pygments plug-in parser:\
 	:gtags_parser=JAGS\:c\:/root/bin/global/lib/gtags/pygments-parser.dll:\
 	:gtags_parser=Jade\:c\:/root/bin/global/lib/gtags/pygments-parser.dll:\
 	:gtags_parser=JavaScript\:c\:/root/bin/global/lib/gtags/pygments-parser.dll:\
-	:gtags_parser=Java\:c\:/root/bin/global/lib/gtags/pygments-parser.dll:\
+#	:gtags_parser=Java\:c\:/root/bin/global/lib/gtags/pygments-parser.dll:\
 	:gtags_parser=Jsp\:c\:/root/bin/global/lib/gtags/pygments-parser.dll:\
 	:gtags_parser=Julia\:c\:/root/bin/global/lib/gtags/pygments-parser.dll:\
 	:gtags_parser=Koka\:c\:/root/bin/global/lib/gtags/pygments-parser.dll:\
