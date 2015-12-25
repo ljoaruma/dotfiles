@@ -34,7 +34,8 @@ NeoBundle 'Shougo/vimshell.vim'
 " - info view
 "NeoBundle 'sjl/gundo.vim'
 "NeoBundle 'koron/minimap-vim'
-NeoBundle 'primitivorm/minimap-vim'
+"NeoBundle 'severin-lemaignan/vim-minimap'
+"NeoBundle 'primitivorm/minimap-vim'
 NeoBundle 'vim-scripts/taglist.vim'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'vim-scripts/Visual-Mark'
@@ -58,10 +59,13 @@ NeoBundle 't9md/vim-choosewin'
 "NeoBundle 'kana/vim-operator-user'
 "NeoBundle 'kana/vim-operator-replace'
 NeoBundle 'tyru/restart.vim'
+NeoBundle 'kana/vim-tabpagecd'
+NeoBundle 'airblade/vim-rooter'
 " - edit
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'h1mesuke/vim-alignta'
 NeoBundle 'vim-scripts/Align'
+NeoBundle 'terryma/vim-multiple-cursors'
 " - textobj
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'kana/vim-textobj-function'
@@ -74,6 +78,8 @@ NeoBundle 'kana/vim-operator-replace'
 NeoBundle 'Shougo/unite.vim'
 "NeoBundle 'Shougo/neocomplcache.vim'
 NeoBundle 'Shougo/neocomplete.vim'
+NeoBundle 'Shougo/neoinclude.vim'
+NeoBundle 'Shougo/neco-syntax'
 NeoBundle 'Shougo/neosnippet.vim'
 "NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'Shougo/unite-outline'
@@ -106,15 +112,33 @@ filetype indent on
 
 "change directory when open
 " ファイルの存在するディレクトリをカレントディレクトリにする
-au   BufEnter *   execute ":cd " . expand("%:p:h")
+" au   BufEnter *   execute ":cd " . expand("%:p:h")
 "グローバル的に変更
 command!  Cda execute ":cd " . expand("%:p:h")
 " このファイルに対してのみ変更
 command!  Cdl execute ":lcd " . expand("%:p:h")
 
+" CD by shougo rc
+nnoremap <silent> ;cd :<C-u>call <SID>cd_buffer_dir()<CR>
+function! s:cd_buffer_dir() "{{{
+  let filetype = getbufvar(bufnr('%'), '&filetype')
+  if filetype ==# 'vimfiler'
+    let dir = getbufvar(bufnr('%'), 'vimfiler').current_dir
+  elseif filetype ==# 'vimshell'
+    let dir = getbufvar(bufnr('%'), 'vimshell').save_dir
+  else
+    let dir = isdirectory(bufname('%')) ?
+          \ bufname('%') : fnamemodify(bufname('%'), ':p:h')
+  endif
+
+  echo expand(dir)
+  execute 'lcd' fnameescape(dir)
+endfunction"}}}
+
+
 " directorys
 set tags=./tags;,tags;
-set tags+=Target/**/tags;
+"set tags+=Target/**/tags;
 set backupdir^=$HOME\\vimfiles\\.vimlocal\\.bakfiles
 set directory^=$HOME\\vimfiles\\.vimlocal\\.swpfiles
 set undodir=$HOME\\vimfiles\\.vimlocal\\.undo
@@ -201,6 +225,24 @@ endfunction
 " == plug-in settings
 
 " ====
+" ChangeLog
+
+let g:changelog_dateformat = "%Y-%m-%d"
+let g:changelog_username = "nakamura"
+nnoremap <Leader><Leader>c :new ~/ChangeLog<CR>
+
+" ==
+" rooter
+
+nnoremap <silent> <Leader>chr <Plug>RooterChangeToRootDirectory
+nnoremap <silent> ;chr <Plug>RooterChangeToRootDirectory
+let g:rooter_diable_map = 1
+let g:rooter_manual_only = 1
+"let g:rooter_patterns = g:rooter_patterns + ['hoge']
+let g:rooter_use_lcd = 1
+let g:rooter_silent_chdir = 0
+
+" ====
 " Netrw
 let g:netrw_liststyle = 3
 let g:netrw_altv = 1
@@ -224,7 +266,7 @@ nnoremap <F11> :TlistToggle<CR>
 
 " ====
 " Gundo
-nnoremap <F5> :GundoToggle<CR>
+"nnoremap <F5> :GundoToggle<CR>
 
 " ====
 " QuickFix
@@ -247,7 +289,7 @@ let g:alternateExtensions_cpp = "inl,h,hh,hpp"
 let g:alternateExtensions_h = "cpp,c,inl,cxx,cc"
 let g:alternateExtensions_inl = "cpp,c,h,cxx,cc"
 " let g:alternateSearchPath = 'sfr:../source,sfr:../src,sfr:../include,sfr:../inc'
-nnoremap <C-S-Space> :<C-u>AV<CR>
+nnoremap <C-S-Space> :<C-u>A<CR>
 
 " ====
 " indent guides
@@ -273,8 +315,8 @@ map H <Plug>(operator-quickhl-manual-this-motion)
 " SrcExpl.vim
 
 "let g:SrcExpl_isUpdateTags = 0
-"let g:SrcExpl_refreshTime = 100
-"let g:SrcExpl_updateTagsCmd = "ctags -R --sort=foldcase --tag-relative=yes --excmd=number --langmap=c++:.c++.cc.cp.cpp.cxx.h.h++.hpp.hxx.inl"
+"let g:SrcExpl_refreshTime = 250
+"let g:SrcExpl_updateTagsCmd = "ctags -R --sort=foldcase --tag-relative=yes --excmd=number --langmap=c++:.c++.cc.cp.cpp.cxx.h.h++.hpp.hxx.inl --exlucde=Test"
 "nnoremap <S-F11> :SrcExplToggle<CR>
 
 " ====
@@ -311,6 +353,7 @@ endfunction
 " custome setting on my patch
 let g:dwm_enable_switchback_on_focus = 0
 let g:dwm_auto_enter_exist_filetype = '\v^(netrw|help|unite|taglist|vimfiler)$'
+let g:dwm_enable_auto_enter = 0
 
 " ====
 " choosewin
@@ -330,6 +373,8 @@ command!
 \ RestartWithSession
 \ let g:restart_sessionoptions = 'blank,curdir,folds,help,localoptions,tabpages'
 \ | Restart
+
+let g:restart_check_window_maximized = 0
 
 " ====
 " gift
@@ -475,15 +520,15 @@ function! s:manual_neocomplete_include_make_cache()
 	echo l:messageline
 	NeoCompleteTagMakeCache
 
-	redraw
-	let l:messageline = l:messageline."[SyntaxMakeCache]-"
-	echo l:messageline
-	NeoCompleteSyntaxMakeCache
+"	redraw
+"	let l:messageline = l:messageline."[SyntaxMakeCache]-"
+"	echo l:messageline
+"	NeoCompleteSyntaxMakeCache
 
 	redraw
 	let l:messageline = l:messageline."[IncludeMakeCache]-"
 	echo l:messageline
-	NeoCompleteIncludeMakeCache
+	NeoIncludeMakeCache
 
 	redraw
 	let l:messageline = l:messageline."[BufferMakeCache]-"
@@ -575,15 +620,17 @@ nnoremap <S-s><S-u> :Unite
 nnoremap <S-s><S-t> :Unite dwm buffer_tab tab<CR>
 nnoremap <S-s><S-b> :Unite dwm buffer tab<CR>
 nnoremap <S-s><S-r> :Unite bookmark neomru/file neomru/directory<CR>
-nnoremap <S-s><S-f> :Unite bookmark file directory file/new<CR>
+nnoremap <S-s><S-f> :UniteWithBufferDir bookmark file directory file/new<CR>
 
 " find and jump
 nnoremap <S-s><S-j> :Unite mark<CR>
 nnoremap <S-s><S-p> :Unite jump<CR>
 nnoremap <S-s><S-l> :Unite line:forward -buffer-name=line-matches<CR>
 nnoremap <F3> :Unite line:forward -resume -buffer-name=line-matches -no-quit -no-start-insert<CR>
-nnoremap <S-s><S-g> :Cdl<CR>:Unite grep -auto-preview -buffer-name=grepped<CR>
-nnoremap <S-s># :Cdl<CR>:Unite grep -auto-preview -resume -buffer-name=grepped -no-start-insert -no-quit<CR>
+"nnoremap <S-s><S-g> :Cdl<CR>:Unite grep -auto-preview -buffer-name=grepped<CR>
+nnoremap <S-s><S-g> :Unite grep -auto-preview -buffer-name=grepped<CR>
+"nnoremap <S-s># :Cdl<CR>:Unite grep -auto-preview -resume -buffer-name=grepped -no-start-insert -no-quit<CR>
+nnoremap <S-s># :Unite grep -auto-preview -resume -buffer-name=grepped -no-start-insert -no-quit<CR>
 
 autocmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()
@@ -618,7 +665,7 @@ nnoremap <S-s><S-F11> :Unite outline<CR>
 
 " ====
 " unite-tag
-nnoremap <S-s><C-F12> :UniteWithCursorWord -immediately -auto-preview tag<CR>
+nnoremap <S-s><S-F12> :UniteWithCursorWord -immediately -auto-preview tag<CR>
 " nnoremap <S-s><S-F12> :UniteWithCursorWord -immediately tag<CR>
 
 " ====
@@ -631,6 +678,10 @@ nnoremap <S-F12> :Unite gtags/ref -auto-preview<CR>
 let g:unite_source_gtags_project_config = {
 \ '_':					{ 'treelize' : 1, 'absolute_path' : 1 }
 \ }
+
+" temp
+let g:unite_source_gtags_ref_option = "rs"
+let g:unite_source_gtags_def_option = "d"
 
 " ===
 " unite-grep
