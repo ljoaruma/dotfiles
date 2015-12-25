@@ -1,6 +1,6 @@
 [core]
-	editor = 'c:/root/bin/vim/vim.exe' -c 'set fenc=utf-8'
-	autocrlf = False
+	editor = 'c:/root/bin/vim/gvim.exe' -c 'set fenc=utf-8'
+	autocrlf = false
 	quotepath = false
 [merge]
 	tool = p4merge
