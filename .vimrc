@@ -1,4 +1,17 @@
 " ------------------------------------------------------------------------------------
+" == tiny
+
+set tabstop=4
+set number
+
+set laststatus=2
+
+set list
+set listchars=tab:^.,trail:~
+
+if !1 | finish | endif
+
+" ------------------------------------------------------------------------------------
 " == NeoBundle
 
 set nocompatible
@@ -77,7 +90,10 @@ NeoBundle 'kana/vim-operator-replace'
 " - unite
 NeoBundle 'Shougo/unite.vim'
 "NeoBundle 'Shougo/neocomplcache.vim'
-NeoBundle 'Shougo/neocomplete.vim'
+if has('lua')
+  NeoBundle 'Shougo/neocomplete.vim'
+endif
+NeoBundle 'Konfekt/FastFold'
 NeoBundle 'Shougo/neoinclude.vim'
 NeoBundle 'Shougo/neco-syntax'
 NeoBundle 'Shougo/neosnippet.vim'
@@ -91,6 +107,7 @@ NeoBundle 'hewes/unite-gtags'
 NeoBundle 'kannokanno/unite-dwm'
 NeoBundle 'rhysd/unite-codic.vim'
 NeoBundle 'mattn/unite-remotefile'
+NeoBundle 'Shougo/tabpagebuffer.vim'
 
 "Memo
 "NeoBundle 'kien/ctrlp.vim'
@@ -109,6 +126,38 @@ filetype indent on
 " can use prefix
 " <Space> <CR> f t s <C-t> <C-y> <C-d> <C-u> , ; \ q
 
+if !has('gui_running')
+  set cmdheight=2
+  " view
+  set laststatus=2
+  set number
+  set cursorcolumn
+  set cursorline
+  set ruler
+  " edit
+  set ts=4
+  set shiftwidth=4
+
+  "colorscheme default
+  colorscheme desert
+
+  " カラー設定した後にCursorIMを定義する方法
+  if has('multi_byte_ime')
+    highlight Cursor guifg=NONE guibg=Green
+    highlight CursorIM guifg=NONE guibg=Red
+  endif
+
+  " タブと「行末の半角スペース」の協調表示
+  set list
+  set listchars=tab:^.,trail:~
+  highlight SpecialKey term=bold ctermfg=2 guifg=yellowgreen
+
+  " その他カラーの設定
+  hi clear CursorLine
+  hi CursorLine ctermbg=darkgray
+  hi clear MatchParen
+  hi MatchParen term=bold ctermbg=black guibg=DarkCyan
+endif
 
 "change directory when open
 " ファイルの存在するディレクトリをカレントディレクトリにする
@@ -151,7 +200,9 @@ let g:neomru#file_mru_path = expand('$HOME/vimfiles/.vimlocal/.cache/file')
 let g:neomru#directory_mru_path = expand('$HOME/vimfiles/.vimlocal/.cache/directory')
 " - neocomplcache
 let g:neocomplcache_temporary_dir = expand('$HOME/vimfiles/.vimlocal/.neocomplcache')
-let g:neocomplete#data_directory = expand('$HOME/vimfiles/.vimlocal/.neocomplete')
+if has('lua')
+  let g:neocomplete#data_directory = expand('$HOME/vimfiles/.vimlocal/.neocomplete')
+endif
 " - vimfiler
 let g:vimfiler_data_directory = expand('$HOME/vimfiles/.vimlocal/.vimfiler')
 " - vimshell
@@ -234,8 +285,9 @@ nnoremap <Leader><Leader>c :new ~/ChangeLog<CR>
 " ==
 " rooter
 
-nnoremap <silent> <Leader>chr <Plug>RooterChangeToRootDirectory
-nnoremap <silent> ;chr <Plug>RooterChangeToRootDirectory
+"nnoremap <silent> <Leader>chr <Plug>RooterChangeToRootDirectory
+"nnoremap <silent> ;chr <Plug>RooterChangeToRootDirectory
+map <silent> ;ch <Plug>RooterChangeToRootDirectory
 let g:rooter_diable_map = 1
 let g:rooter_manual_only = 1
 "let g:rooter_patterns = g:rooter_patterns + ['hoge']
@@ -442,72 +494,79 @@ endfunction
 " ===
 " neocomplete
 
-set completeopt=menuone
+if has('lua')
 
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#enable_fuzzy_completion = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#auto_completion_start_length = 3
-let g:neocomplete#manual_completion_start_length = 3
-let g:neocomplete#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+  set completeopt=menuone
 
-" Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
+  " Disable AutoComplPop.
+  let g:acp_enableAtStartup = 0
+  " Use neocomplete.
+  let g:neocomplete#enable_at_startup = 1
+  " Use smartcase.
+  let g:neocomplete#enable_smart_case = 1
+  let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+  let g:neocomplete#enable_fuzzy_completion = 1
+
+  " Set minimum syntax keyword length.
+  let g:neocomplete#sources#syntax#min_keyword_length = 3
+  let g:neocomplete#auto_completion_start_length = 3
+  let g:neocomplete#manual_completion_start_length = 3
+  let g:neocomplete#min_keyword_length = 3
+  let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+  " Define dictionary.
+  let g:neocomplete#sources#dictionary#dictionaries = {
 			\ 'default' : '',
 			\ 'vimshell' : $HOME.'/vimfiles/.vimlocal/.vimshell_hist',
 			\ 'scheme' : $HOME.'/vimfiles/.vimlocal/.gosh_completions'
 			\ }
 
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
+  " Define keyword.
+  if !exists('g:neocomplete#keyword_patterns')
 	let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+  endif
+  let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
-" Plugin key-mappings.
-inoremap <expr><C-g> neocomplete#undo_completion()
-inoremap <expr><C-l> neocomplete#complete_common_string()
-"
-inoremap <expr><C-y>  pumvisible() ? neocomplete#close_popup() :  "\<C-r>\""
-inoremap <expr><C-e>  pumvisible() ? neocomplete#cancel_popup() : "\<End>"
+  " Plugin key-mappings.
+  inoremap <expr><C-g> neocomplete#undo_completion()
+  inoremap <expr><C-l> neocomplete#complete_common_string()
+  "
+  inoremap <expr><C-y>  pumvisible() ? neocomplete#close_popup() :  "\<C-y>"
+  inoremap <expr><C-e>  pumvisible() ? neocomplete#cancel_popup() : "\<C-e>"
 
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-	return neocomplete#smart_close_popup() . "\<CR>"
+  " Recommended key-mappings.
+  " <CR>: close popup and save indent.
+  inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+  function! s:my_cr_function()
+	return (pumvisible() ? "\<C-y>" : ("" . "\<CR>"))
+	"return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  	"return neocomplete#smart_close_popup() . "\<CR>"
 	" For no inserting <CR> key.
 	"return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y> neocomplete#close_popup()
-inoremap <expr><C-e> neocomplete#cancel_popup()
-" Close popup by <Space>.
-"inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() :
-""\<Space>"
+  endfunction
+  " <TAB>: completion.
+  inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+  " <C-h>, <BS>: close popup and delete backword char.
+  inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+  inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+  "inoremap <expr><C-y> neocomplete#close_popup()
+  "inoremap <expr><C-e> neocomplete#cancel_popup()
+  inoremap <expr><C-k> pumvisible() ? "\<C-y>" : "\<C-k>"
+  " Close popup by <Space>.
+  "inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() :
+  ""\<Space>"
 
-" manual cache make (neo complete setting error?)
-nnoremap <silent> SA :call <SID>manual_neocomlete_make_cache()<CR>
-function! s:manual_neocomlete_make_cache()
+  " manual cache make (neo complete setting error?)
+  nnoremap <silent> SA :call <SID>manual_neocomlete_make_cache()<CR>
+  function! s:manual_neocomlete_make_cache()
 	NeoCompleteTagMakeCache
 	NeoCompleteSyntaxMakeCache
-"	NeoCompleteIncludeMakeCache
+  "	NeoCompleteIncludeMakeCache
 	NeoCompleteBufferMakeCache
-endfunction
+  endfunction
 
-nnoremap <silent> SI :call <SID>manual_neocomplete_include_make_cache()<CR>
-function! s:manual_neocomplete_include_make_cache()
+  nnoremap <silent> SI :call <SID>manual_neocomplete_include_make_cache()<CR>
+  function! s:manual_neocomplete_include_make_cache()
 
 	let l_time = g:neocomplete#skip_auto_completion_time
 	let l_processes = g:neocomplete#sources#include#max_processes
@@ -520,10 +579,10 @@ function! s:manual_neocomplete_include_make_cache()
 	echo l:messageline
 	NeoCompleteTagMakeCache
 
-"	redraw
-"	let l:messageline = l:messageline."[SyntaxMakeCache]-"
-"	echo l:messageline
-"	NeoCompleteSyntaxMakeCache
+  "	redraw
+  "	let l:messageline = l:messageline."[SyntaxMakeCache]-"
+  "	echo l:messageline
+  "	NeoCompleteSyntaxMakeCache
 
 	redraw
 	let l:messageline = l:messageline."[IncludeMakeCache]-"
@@ -542,18 +601,21 @@ function! s:manual_neocomplete_include_make_cache()
 	let g:neocomplete#skip_auto_completion_time = l_time
 	let g:neocomplete#sources#include#max_processes = l_processes
 
-endfunction
+  endfunction
 
-" other setting
-let g:neocomplete#skip_auto_completion_time = "0.05"
-let g:neocomplete#release_cache_time = 86400
-let g:neocomplete#sources#include#max_processes = 0
+  " other setting
+  let g:neocomplete#skip_auto_completion_time = "0.05"
+  let g:neocomplete#release_cache_time = 86400
+  let g:neocomplete#sources#include#max_processes = 0
+
+endif
 
 " ====
 " neosnippet
 "" Plugin key-mappings.
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
 smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
 
 "" <TAB> : Completion
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>" 
@@ -599,7 +661,16 @@ endfunction
 
 " ------------------------------------------------------------------------------------
 " == Unite
-let g:unite_enable_start_insert=1
+" let g:unite_enable_start_insert=1
+
+call unite#custom#profile(
+\  'default',
+\ 'context',
+\ {
+\   'start_insert':1,
+\   'direction':"aboveleft"
+\ }
+\)
 
 let g:neomru#file_mru_limit = 20
 let g:unite_source_file_mru_limit = 20
@@ -609,11 +680,11 @@ let g:unite_source_directory_mru_limit = 20
 let g:unite_source_directory_mru_long_limit = 1000
 
 
-let g:unite_split_rule = 'aboveleft'
+"let g:unite_split_rule = 'aboveleft'
 
 " operation of unite
 nnoremap <S-s> <Nop>
-nnoremap <S-s><S-s> :UniteResume -no-start-insert -no-quit<CR>
+nnoremap <S-s><S-s> :UniteResume -no-start-insert -no-quit -keep-focus -no-auto-preview<CR>
 nnoremap <S-s><S-u> :Unite 
 
 " list of files
@@ -671,12 +742,12 @@ nnoremap <S-s><S-F12> :UniteWithCursorWord -immediately -auto-preview tag<CR>
 " ====
 " hewes unite-gtags
 nnoremap <S-s><S-d> :Unite gtags/def:
-nnoremap <F12> :Unite gtags/context -auto-preview<CR>
-nnoremap <C-F12> :Unite gtags/def -auto-preview<CR>
-nnoremap <S-F12> :Unite gtags/ref -auto-preview<CR>
+nnoremap <F12> :Unite gtags/context -auto-preview -start-insert<CR>
+nnoremap <C-F12> :Unite gtags/def -auto-preview -start-insert<CR>
+nnoremap <S-F12> :Unite gtags/ref -auto-preview -start-insert<CR>
 
 let g:unite_source_gtags_project_config = {
-\ '_':					{ 'treelize' : 1, 'absolute_path' : 1 }
+\ '_':					{ 'treelize' : 0, 'absolute_path' : 0 }
 \ }
 
 " temp
@@ -699,6 +770,7 @@ let g:unite_source_grep_max_candidates = 65535
 " go get github.com/mattn/jvgrep
 " go install -v -x -a code.google.com/p/mahonia
 " go install -v -x -a github.com/mattn/jvgrep
+" update -> go get -u ~~~
 
 let $JVGREP_OUTPUT_ENCODING='sjis'
 let g:unite_source_grep_command = 'jvgrep'
