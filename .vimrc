@@ -184,6 +184,10 @@ function! s:cd_buffer_dir() "{{{
   execute 'lcd' fnameescape(dir)
 endfunction"}}}
 
+" mouse settings
+
+set mouse=a
+set ttymouse=xterm2
 
 " directorys
 set tags=./tags;,tags;
