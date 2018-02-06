@@ -64,7 +64,8 @@ NeoBundle 't9md/vim-quickhl'
 NeoBundle 'vim-scripts/ShowMultiBase'
 "NeoBundle 'vim-scripts/fuzzyjump.vim'
 "NeoBundle 'osyo-manga/vim-gift'
-NeoBundle 'spolu/dwm.vim'
+"NeoBundle 'spolu/dwm.vim'
+NeoBundle 'ljoaruma/dwm.vim'
 NeoBundle 'vim-scripts/BufOnly.vim'
 NeoBundle 'koron/codic-vim'
 NeoBundle 't9md/vim-choosewin'
@@ -84,6 +85,7 @@ NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'kana/vim-textobj-function'
 NeoBundle 'kana/vim-textobj-syntax'
 NeoBundle 'sgur/vim-textobj-parameter'
+NeoBundle 'rhysd/vim-textobj-ruby'
 " - operator
 NeoBundle 'kana/vim-operator-user'
 NeoBundle 'kana/vim-operator-replace'
@@ -108,6 +110,10 @@ NeoBundle 'kannokanno/unite-dwm'
 NeoBundle 'rhysd/unite-codic.vim'
 NeoBundle 'mattn/unite-remotefile'
 NeoBundle 'Shougo/tabpagebuffer.vim'
+NeoBundle 'osyo-manga/vim-monster'
+"NeoBundle ruby
+NeoBundle 'thinca/vim-ref'
+NeoBundle 'vim-ref/vim-ref-ri'
 
 "Memo
 "NeoBundle 'kien/ctrlp.vim'
@@ -158,6 +164,14 @@ if !has('gui_running')
   hi clear MatchParen
   hi MatchParen term=bold ctermbg=black guibg=DarkCyan
 endif
+
+"if has("win32")
+"  let &termencoding = &encoding
+"endif
+
+set termencoding=utf-8
+"set encoding=utf-8
+set fileencodings=utf-8,cp932,euc-jp
 
 "change directory when open
 " ファイルの存在するディレクトリをカレントディレクトリにする
@@ -612,6 +626,11 @@ if has('lua')
   let g:neocomplete#release_cache_time = 86400
   let g:neocomplete#sources#include#max_processes = 0
 
+  let g:monster#completion#rcodetools#backend = "async_rct_complete"
+  let g:neocomplete#sources#omni#input_patterns = {
+  \   "ruby" : '[^. *\t]\.\w*\|\h\w*::',
+  \}
+
 endif
 
 " ====
@@ -686,26 +705,29 @@ let g:unite_source_directory_mru_long_limit = 1000
 
 "let g:unite_split_rule = 'aboveleft'
 
+nnoremap [unite] <Nop>
+nmap ; [unite]
+
 " operation of unite
-nnoremap <S-s> <Nop>
-nnoremap <S-s><S-s> :UniteResume -no-start-insert -no-quit -keep-focus -no-auto-preview<CR>
-nnoremap <S-s><S-u> :Unite 
+nnoremap [unite] <Nop>
+nnoremap [unite], :UniteResume -no-start-insert -no-quit -keep-focus -no-auto-preview<CR>
+nnoremap [unite]u :Unite 
 
 " list of files
-nnoremap <S-s><S-t> :Unite dwm buffer_tab tab<CR>
-nnoremap <S-s><S-b> :Unite dwm buffer tab<CR>
-nnoremap <S-s><S-r> :Unite bookmark neomru/file neomru/directory<CR>
-nnoremap <S-s><S-f> :UniteWithBufferDir bookmark file directory file/new<CR>
+nnoremap [unite]t :Unite dwm buffer_tab tab<CR>
+nnoremap [unite]b :Unite dwm buffer tab<CR>
+nnoremap [unite]r :Unite bookmark neomru/file neomru/directory<CR>
+nnoremap [unite]f :UniteWithBufferDir bookmark file directory file/new<CR>
 
 " find and jump
-nnoremap <S-s><S-j> :Unite mark<CR>
-nnoremap <S-s><S-p> :Unite jump<CR>
-nnoremap <S-s><S-l> :Unite line:forward -buffer-name=line-matches<CR>
+nnoremap [unite]<S-j> :Unite mark<CR>
+nnoremap [unite]<S-p> :Unite jump<CR>
+nnoremap [unite]<S-l> :Unite line:forward -buffer-name=line-matches<CR>
 nnoremap <F3> :Unite line:forward -resume -buffer-name=line-matches -no-quit -no-start-insert<CR>
-"nnoremap <S-s><S-g> :Cdl<CR>:Unite grep -auto-preview -buffer-name=grepped<CR>
-nnoremap <S-s><S-g> :Unite grep -auto-preview -buffer-name=grepped<CR>
-"nnoremap <S-s># :Cdl<CR>:Unite grep -auto-preview -resume -buffer-name=grepped -no-start-insert -no-quit<CR>
-nnoremap <S-s># :Unite grep -auto-preview -resume -buffer-name=grepped -no-start-insert -no-quit<CR>
+"nnoremap [unite]<S-g> :Cdl<CR>:Unite grep -auto-preview -buffer-name=grepped<CR>
+nnoremap [unite]<S-g> :Unite grep -auto-preview -buffer-name=grepped<CR>
+"nnoremap [unite]# :Cdl<CR>:Unite grep -auto-preview -resume -buffer-name=grepped -no-start-insert -no-quit<CR>
+nnoremap [unite]# :Unite grep -auto-preview -resume -buffer-name=grepped -no-start-insert -no-quit<CR>
 
 autocmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()
@@ -717,7 +739,7 @@ endfunction
 
 " ====
 " unite-menu
-nnoremap <S-s><S-m> :Unite menu:shortcut<CR>
+nnoremap [unite]<S-m> :Unite menu:shortcut<CR>
 let g:unite_source_menu_menus = {
 \	"shortcut" : {
 \		"command_candidates" : [
@@ -735,17 +757,16 @@ let g:unite_source_menu_menus = {
 
 " ====
 " unite-outline
-nnoremap <S-s><F11> :Unite outline<CR>
-nnoremap <S-s><S-F11> :Unite outline<CR>
+nnoremap [unite]o :Unite outline<CR>
 
 " ====
 " unite-tag
-nnoremap <S-s><S-F12> :UniteWithCursorWord -immediately -auto-preview tag<CR>
-" nnoremap <S-s><S-F12> :UniteWithCursorWord -immediately tag<CR>
+nnoremap [unite]<S-F12> :UniteWithCursorWord -immediately -auto-preview tag<CR>
+" nnoremap [unite]<S-F12> :UniteWithCursorWord -immediately tag<CR>
 
 " ====
 " hewes unite-gtags
-nnoremap <S-s><S-d> :Unite gtags/def:
+nnoremap [unite]<S-d> :Unite gtags/def:
 nnoremap <F12> :Unite gtags/context -auto-preview -start-insert<CR>
 nnoremap <C-F12> :Unite gtags/def -auto-preview -start-insert<CR>
 nnoremap <S-F12> :Unite gtags/ref -auto-preview -start-insert<CR>
