@@ -125,6 +125,7 @@ call neobundle#end()
 
 filetype plugin on
 filetype indent on
+syntax on
 
 " ------------------------------------------------------------------------------------
 " == global settings
