@@ -21,3 +21,7 @@ alias p9='pushd +9'
 
 alias pback='pushd "${OLDPWD}"'
 
+alias rsyncn='rsync -avhsn --stats --progress'
+alias rsynca='rsync -avhs --stats --progress'
+alias rsynca_inlog='rsync -avhs --stats --progress --log-file-format="%i %o %l/%b %M %f %L"'
+
