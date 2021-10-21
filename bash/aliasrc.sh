@@ -25,3 +25,31 @@ alias rsyncn='rsync -avhsn --stats --progress'
 alias rsynca='rsync -avhs --stats --progress'
 alias rsynca_inlog='rsync -avhs --stats --progress --log-file-format="%i %o %l/%b %M %f %L"'
 
+# bash_completionの関数呼び出しで補完機能追加
+if declare -f | grep -q -e "\<_completion_loader\>" > /dev/null 2>&1; then
+
+  function __rsync_alias_completion() {
+
+    if ! complete -p rsync > /dev/null 2>&1; then
+
+      _completion_loader "rsync"
+      if ! complete -p rsync > /dev/null 2>&1; then
+        return
+      fi
+
+      return
+
+    fi
+
+    complete -F $( \
+      complete -p rsync | while read -a comps; do \
+        echo "${comps[@]:$((${#comps[@]} - 2)):1}"; \
+      done \
+    ) -o nospace rsyncn rsynca rsynca_inlog
+
+  }
+
+  complete -F __rsync_alias_completion -o nospace rsyncn rsynca rsynca_inlog
+
+fi
+
