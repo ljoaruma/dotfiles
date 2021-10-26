@@ -29,7 +29,7 @@ set smartindent
 nnoremap <C-j> <C-w>w
 nnoremap <C-k> <C-w>W
 nnoremap <C-l> gt
-nnoremap <C-l> gT
+nnoremap <C-h> gT
 
 " バッファ
 
