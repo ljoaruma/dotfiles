@@ -24,6 +24,7 @@ fi
 export HISTCONTROL=ignoreboth
 export HISTSIZE=65535
 export HISTFILESIZE=65535
+export HISTIGNORE="history*"
 
 # 履歴重複削除
 function share_history {
