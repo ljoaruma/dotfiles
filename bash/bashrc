@@ -21,6 +21,10 @@ if [[ -t 0 ]]; then
   stty stop undef
 fi
 
+export HISTCONTROL=ignoreboth
+export HISTSIZE=65535
+export HISTFILESIZE=65535
+
 # 履歴重複削除
 function share_history {
 	history -a &&
@@ -35,10 +39,6 @@ function share_history {
 
 PROMPT_COMMAND='share_history'
 shopt -u histappend
-
-export HISTCONTROL=ignoreboth
-export HISTSIZE=65535
-export HISTFILESIZE=65535
 
 #
 
