@@ -13,6 +13,7 @@ set cmdheight=2
 set laststatus=2
 set cursorline
 "set cursorcolumn
+set display=lastline
 
 set visualbell
 
