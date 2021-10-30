@@ -1,10 +1,10 @@
 #!/bin/bash
 
+alias loopbell='for i in $(seq 0 6); do tput bel; sleep 0.8; done'
+
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-
-alias loopbell='for i in $(seq 0 6); do tput bel; sleep 0.8; done'
 
 alias ..='cd ..'
 
@@ -26,6 +26,20 @@ alias pback='pushd "${OLDPWD}"'
 alias rsyncn='rsync -avhsn --stats --progress'
 alias rsynca='rsync -avhs --stats --progress'
 alias rsynca_inlog='rsync -avhs --stats --progress --log-file-format="%i %o %l/%b %M %f %L"'
+
+alias pstree='ps axfwwo user,pid,pgid,pcpu,pmem,vsz,rss,tty,nice,pri,stat,start_time,bsdtime,args'
+
+# alias一発では出来なかったので関数を介して実行する
+#watch -n2 bash -c 'uptime; echo; ps aufww | grep -av -e '\''watch -n5 bash -c'\'' -e '\''ps aufww'\'''
+#alias watch_pstree='watch -n2 bach -c'\''uptime; echo; ps afwwo user,pid,pcpu,pmem,tty,pri,stat,start_time,bsdtime,args'\'
+function __to_be_watch_pstree() {
+  uptime
+  echo
+  ps afwwo user,pid,pcpu,pmem,tty,pri,stat,start_time,bsdtime,args | \
+  grep -v -e '\<watch\>\([[:blank:]]\+-n[0-9]\+\)' -e '\<ps afwwo ' -e '\<watch\>'
+}
+export -f __to_be_watch_pstree
+alias watch_pstree='watch -x -n2 bash -c __to_be_watch_pstree'
 
 # bash_completionの関数呼び出しで補完機能追加
 if declare -f | grep -q -e "\<_completion_loader\>" > /dev/null 2>&1; then
