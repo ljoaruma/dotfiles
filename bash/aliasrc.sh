@@ -27,7 +27,7 @@ alias rsyncn='rsync -avhsn --stats --progress'
 alias rsynca='rsync -avhs --stats --progress'
 alias rsynca_inlog='rsync -avhs --stats --progress --log-file-format="%i %o %l/%b %M %f %L"'
 
-alias pstree='ps axfwwo user,pid,pgid,pcpu,pmem,vsz,rss,tty,nice,pri,stat,start_time,bsdtime,args'
+alias proctree='ps axfwwo user,pid,pgid,pcpu,pmem,vsz,rss,tty,nice,pri,stat,start_time,bsdtime,args'
 
 #watch -n2 bash -c 'uptime; echo; ps aufww | grep -av -e '\''watch -n5 bash -c'\'' -e '\''ps aufww'\'''
 # alias一行で書くと、エスケープの嵐でよく分からなくなってくるので、関数を介して実行する
