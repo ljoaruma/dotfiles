@@ -29,15 +29,25 @@ alias rsynca_inlog='rsync -avhs --stats --progress --log-file-format="%i %o %l/%
 
 alias pstree='ps axfwwo user,pid,pgid,pcpu,pmem,vsz,rss,tty,nice,pri,stat,start_time,bsdtime,args'
 
-# alias一発では出来なかったので関数を介して実行する
 #watch -n2 bash -c 'uptime; echo; ps aufww | grep -av -e '\''watch -n5 bash -c'\'' -e '\''ps aufww'\'''
-#alias watch_pstree='watch -n2 bach -c'\''uptime; echo; ps afwwo user,pid,pcpu,pmem,tty,pri,stat,start_time,bsdtime,args'\'
+# alias一行で書くと、エスケープの嵐でよく分からなくなってくるので、関数を介して実行する
+#alias watch_pstree='watch -n2 '\''uptime; echo; ps afwwo user,pid,pcpu,pmem,tty,pri,stat,start_time,bsdtime,args | grep -v -e '\'\\\'\''[[:blank:]]\+-bash$'\'\\\'\'' -e '\'\\\'\''\<watch\>'\'\\\'
 function __to_be_watch_pstree() {
+  # 端末を持つプロセスから、以下を除いたプロセスツリー
+  # watch
+  # ps
+  # ログインbash( -bash )
+  # 本関数自信
   uptime
   echo
   ps afwwo user,pid,pcpu,pmem,tty,pri,stat,start_time,bsdtime,args | \
-  grep -v -e '\<watch\>\([[:blank:]]\+-n[0-9]\+\)' -e '\<ps afwwo ' -e '\<watch\>'
+  grep -v \
+    -e '[[:blank:]]\+\\_[[:blank:]]\+\<watch\>' \
+    -e '[[:blank:]]\+\\_[[:blank:]]\+\<ps\>' \
+    -e '[[:blank:]]\+-bash\>$' \
+    -e '[[:blank:]]\+\\_[[:blank:]]\+bash -c '"${FUNCNAME[0]}$"
 }
+
 export -f __to_be_watch_pstree
 alias watch_pstree='watch -x -n2 bash -c __to_be_watch_pstree'
 
