@@ -27,7 +27,8 @@ alias rsyncn='rsync -avhsn --stats --progress'
 alias rsynca='rsync -avhs --stats --progress'
 alias rsynca_inlog='rsync -avhs --stats --progress --log-file-format="%i %o %l/%b %M %f %L"'
 
-alias proctree='ps axfwwo user,pid,pgid,pcpu,pmem,vsz,rss,tty,nice,pri,stat,start_time,bsdtime,args'
+#alias ps='ps o user,pid,pgid,nlwp,pcpu,pmem,vsz,rss,tty,nice,pri,stat,start_time,bsdtime,args'
+alias proctree='\ps axfo user,pid,pgid,pcpu,pmem,vsz,rss,tty,nice,stat,lstart,cputime,etime,args'
 
 #watch -n2 bash -c 'uptime; echo; ps aufww | grep -av -e '\''watch -n5 bash -c'\'' -e '\''ps aufww'\'''
 # alias一行で書くと、エスケープの嵐でよく分からなくなってくるので、関数を介して実行する
@@ -39,8 +40,7 @@ function __to_be_watch_pstree() {
   # ログインbash( -bash )
   # 本関数自信
   uptime
-  echo
-  ps afwwo user,pid,pcpu,pmem,tty,pri,stat,start_time,bsdtime,args | \
+  ps afwwo user,pid,pcpu,pmem,nlwp,tty,nice,stat,lstart,cputime=CPUTIME,etime,args | \
   grep -v \
     -e '[[:blank:]]\+\\_[[:blank:]]\+\<watch\>' \
     -e '[[:blank:]]\+\\_[[:blank:]]\+\<ps\>' \
@@ -50,6 +50,24 @@ function __to_be_watch_pstree() {
 
 export -f __to_be_watch_pstree
 alias watch_pstree='watch -x -n2 bash -c __to_be_watch_pstree'
+
+function __to_be_watch_ps() {
+  # 端末を持つプロセスから、以下を除いたプロセス
+  # watch
+  # ps
+  # ログインbash( -bash )
+  # 本関数自信
+  uptime
+  ps awwo user,pid,pcpu,pmem,nlwp,tty,nice,stat,lstart,cputime=CPUTIME,etime,args | \
+  grep -v \
+    -e '[[:blank:]]\+\\_[[:blank:]]\+\<watch\>' \
+    -e '[[:blank:]]\+\\_[[:blank:]]\+\<ps\>' \
+    -e '[[:blank:]]\+-bash\>$' \
+    -e '[[:blank:]]\+\\_[[:blank:]]\+bash -c '"${FUNCNAME[0]}$"
+}
+
+export -f __to_be_watch_ps
+alias watch_ps='watch -x -n2 bash -c __to_be_watch_ps'
 
 # bash_completionの関数呼び出しで補完機能追加
 if declare -f | grep -q -e "\<_completion_loader\>" > /dev/null 2>&1; then
