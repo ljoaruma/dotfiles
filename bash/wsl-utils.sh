@@ -26,6 +26,8 @@ if which wslpath > /dev/null 2>&1 ; then
     pushd "${onwslpath}"
   }
 
+  export -f wslpush
+
   function wslcd() {
     local onwslpath=$(wslpath "$1")
     echo "$1 -> ${onwslpath}"
@@ -36,5 +38,18 @@ if which wslpath > /dev/null 2>&1 ; then
 
     cd "${onwslpath}"
 	}
+
+  export -f wslcd
+
+  function smbpath() {
+    wslpath "$1" |
+    sed \
+      -e 's|/mnt/y/|/data/garbages/|g' \
+      -e 's|/mnt/w/|/data/datas/|g' \
+      -e 's|/mnt/x/|/data/musics/|g'
+  }
+
+  export -f smbpath
+
 fi
 
