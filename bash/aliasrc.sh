@@ -3,6 +3,7 @@
 alias loopbell='for i in $(seq 0 6); do tput bel; sleep 0.8; done'
 
 alias ll='ls -alF'
+alias llf='ll --full-time'
 alias la='ls -A'
 alias l='ls -CF'
 
