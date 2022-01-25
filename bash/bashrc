@@ -49,6 +49,30 @@ fi
 
 #
 
+# fcitxを自動的にONにする設定(2022-01-25 コメントアウト)
+
+# aliase
+
+#export DISPLAY=localhost:0.0
+
+#export PATH=$HOME/usr/bin:$HOME/usr/local/bin:$HOME/usr/local/pycharm-community-2018.2.2/bin:$PATH
+
+#export GTK_IM_MODULE=fcitx
+#export QT_IM_MODULE=fcitx
+#export XMODIFIERS=@im=fcitx
+#export DefaultIMModule=fcitx
+## fcitx-autostart
+#if xset -q > /dev/null 2>&1; then
+# xset -r 49
+#fi
+
+#export LANG=ja_JP.UTF-8
+#export LANGUAGE=ja
+
+
+
+#
+
 source $(dirname "${BASH_SOURCE}")/aliasrc.sh 
 source $(dirname "${BASH_SOURCE}")/utils.sh
 
