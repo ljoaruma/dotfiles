@@ -75,3 +75,11 @@ if [[ -x "${WIN_FFMPEG_INSTALL_DIR}/bin/ffprobe.exe" ]]; then
 
 fi
 
+# Windows Terminalでカレントディレクトリの引き継ぎ OSC 9;9
+#function _windows_terminal_osc_9_9 {
+#    # Inform Terminal about shell current working directory
+#    # see: https://github.com/microsoft/terminal/issues/8166
+#    printf '\e]9;9;%s\e\' "$(wslpath -w "$(pwd)")"
+#}
+#PROMPT_COMMAND="_windows_terminal_osc_9_9; ${PROMPT_COMMAND}"
+
