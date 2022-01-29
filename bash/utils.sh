@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # wslの場合だけのユーティリティ関数追加
-if [[ -v WSL_DISTRO_NAME ]]; then
+#if [[ -v WSL_DISTRO_NAME ]]; then
+if uname --kernel-release | grep -q -e "WSL" &> /dev/null ; then
   source "$(dirname "${BASH_SOURCE}")"/wsl-utils.sh
 fi
 

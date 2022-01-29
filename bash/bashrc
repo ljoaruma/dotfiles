@@ -16,7 +16,8 @@ else
   export EDITOR=vi
 fi
 
-if [[ -v WSL_DISTRO_NAME ]]; then
+#if [[ -v WSL_DISTRO_NAME ]]; then
+if uname --kernel-release | grep -q -e "WSL" &> /dev/null && [[ ! -v DISPLAY ]]; then
   export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0
 fi
 
