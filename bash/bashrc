@@ -35,6 +35,7 @@ export HISTIGNORE="history:history *:p[0-9n]:jobs:fg:share_history:share_history
 function share_history {
 	history -a &&
 	tac ~/.bash_history |
+  sed 's/[[:blank:]]\+$//g' |
 	awk '!a[$0]++' |
 	tac > ~/.bash_history.tmp &&
 	[ -f ~/.bash_history.tmp ] &&
