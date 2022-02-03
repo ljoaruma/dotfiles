@@ -58,7 +58,7 @@ shopt -u histappend
 #
 
 if [[ ! "${PWD}" = "${HOME}" ]]; then
-  pushd -n "${HOME}"
+  pushd -n "${HOME}" &> /dev/null
 fi
 
 #
