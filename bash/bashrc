@@ -37,7 +37,7 @@ function share_history {
   local _locked=0;
   exec {_lock}>~/.bash_history.lock &&
   flock --nonblock --exclusive ${_lock} &&
-  locked=1 &&
+  _locked=1 &&
 	history -a &&
 	tac ~/.bash_history |
   sed 's/[[:blank:]]\+$//g' |
