@@ -8,7 +8,7 @@ export LANGUAGE=ja
 export PATH=$HOME/usr/bin:$HOME/usr/local/bin:$PATH
 export MANPATH=$HOME/usr/share/man:$MANPATH
 
-PS1='\[\e]0;\u@\h: \w\a\]\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\e[38;5;252m\]\[\e[48;5;10m\]\[\e7\]$(printf "%*s" $COLUMNS " ")\[\e8\]$(date +%y-%m-%d\ %H:%M:%S) [$(dirs -l -v | head -n 4 | sed '\''s/^[[:blank:]]*\([[:digit:]]\+\)[[:blank:]]*\(.*\)/<\1: \2>/g'\'' | tr "\n" " ")]\[\e[0m\]\n\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\][[\w]]\[\e[00m\]\n$( __j=$(jobs | grep -v -e "\<終了\>" -e "\<Done\>" | wc -l); [[ $__j -gt 0 ]] && echo "(J:${__j}) ")\$ '
+PS1='\[\e]0;\u@\h: \w\a\]\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\e[38;5;252m\]\[\e[48;5;10m\]\[\e7\]$(printf "%*s" $COLUMNS " ")\[\e8\]$(date +%y-%m-%d\ %H:%M:%S) $( __j=$(LANG=C jobs | grep -v -e '\''^\\[[[:digit:]]\+\\][+?]\\?[[:blank:]]*Done[[:blank:]].*$'\'' | wc -l); [[ $__j -gt 0 ]] && echo "(J:${__j}) ")[$(dirs -l -v | head -n 4 | sed '\''s/^[[:blank:]]*\([[:digit:]]\+\)[[:blank:]]*\(.*\)/<\1: \2>/g'\'' | tr "\n" " ")]\[\e[0m\]\n\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\][[\w]]\[\e[00m\]\n\$ '
 
 if which vim > /dev/null 2>&1 ; then
   export EDITOR=vim
