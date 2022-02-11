@@ -88,3 +88,9 @@ fi
 source $(dirname "${BASH_SOURCE}")/aliasrc.sh 
 source $(dirname "${BASH_SOURCE}")/utils.sh
 
+if which tmux &> /dev/null &&
+   [[ ! -v TMUX ]] &&
+   ! tmux has -t main &> /dev/null; then
+  tmux new -A -s main \; detach &> /dev/null
+fi
+
