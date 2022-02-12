@@ -1,5 +1,5 @@
 #!/bin/sh
-# vim: ts=2 st=2 et filetype=shell :
+# vim: ts=2 st=2 et filetype=sh :
 
 if [ -z "$BASH_VERSION" ]; then
   # とりあえずBASHだけ対応
@@ -35,6 +35,14 @@ WSLENV="WT_SESSION:WT_PROFILE_ID"
 export WSLENV
 WSL_DISTRO_NAME="$(lsb_release --id --short)"
 export WSL_DISTRO_NAME
-WSL_INTEROP="$(find /run/WSL -type s | sort -n | head -n1)"
-export WSL_INTEROP
+if which pstree &> /dev/null; then
+  while read init_pid; do
+    [ ! -S "/run/WSL/""$init_pid""_interop" ] && continue;
+
+    WSL_INTEROP="/run/WSL/""$init_pid""_interop"
+    export WSL_INTEROP
+
+  done < <(pstree -np -s $$ | grep -o -e "init([0-9]\+)" | sed 's/init(\([0-9]\+\))/\1/g')
+
+fi
 

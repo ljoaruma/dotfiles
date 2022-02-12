@@ -6,6 +6,11 @@ if [[ ! -v WSLENV ]]; then
   return 1
 fi
 
+if [ ! -z "$SSH_CLIENT" ]; then
+  # とりあえずSSHのときは動かさないようにしておく
+  return
+fi
+
 __restart_service () {
   if [[ ! -x /etc/init.d/$1 ]]; then
     return 1
