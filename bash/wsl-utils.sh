@@ -56,6 +56,7 @@ fi
 WIN_FFMPEG_INSTALL_DIR="$(wslpath 'C:\r\usr\ffmpeg\ffmpeg-4.4.1-full_build')"
 
 if [[ -x "${WIN_FFMPEG_INSTALL_DIR}/bin/ffmpeg.exe" ]]; then
+  export WIN_FFMPEG_INSTALL_DIR
 
   function ffmpeg() {
     "${WIN_FFMPEG_INSTALL_DIR}/bin/ffmpeg.exe" "$@"
@@ -66,6 +67,7 @@ if [[ -x "${WIN_FFMPEG_INSTALL_DIR}/bin/ffmpeg.exe" ]]; then
 fi
 
 if [[ -x "${WIN_FFMPEG_INSTALL_DIR}/bin/ffprobe.exe" ]]; then
+  export WIN_FFMPEG_INSTALL_DIR
 
   function ffprobe() {
     "${WIN_FFMPEG_INSTALL_DIR}/bin/ffprobe.exe" "$@"
@@ -73,6 +75,10 @@ if [[ -x "${WIN_FFMPEG_INSTALL_DIR}/bin/ffprobe.exe" ]]; then
 
   export -f ffprobe
 
+fi
+
+if ! declare -p WIN_FFMPEG_INSTALL_DIR | grep -q 'declare[[:blank:]]\+-[[:alpha:]]*x' > /dev/null; then
+  unset WIN_FFMPEG_INSTALL_DIR
 fi
 
 # Windows Terminalでカレントディレクトリの引き継ぎ OSC 9;9
