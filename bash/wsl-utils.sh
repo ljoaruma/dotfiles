@@ -82,10 +82,18 @@ if ! declare -p WIN_FFMPEG_INSTALL_DIR | grep -q 'declare[[:blank:]]\+-[[:alpha:
 fi
 
 # Windows Terminalでカレントディレクトリの引き継ぎ OSC 9;9
-#function _windows_terminal_osc_9_9 {
-#    # Inform Terminal about shell current working directory
-#    # see: https://github.com/microsoft/terminal/issues/8166
-#    printf '\e]9;9;%s\e\' "$(wslpath -w "$(pwd)")"
-#}
-#PROMPT_COMMAND="_windows_terminal_osc_9_9; ${PROMPT_COMMAND}"
+
+if [[ ! -v TMUX ]]; then
+
+  function _windows_terminal_osc_9_9 {
+      # Inform Terminal about shell current working directory
+      # see: https://docs.microsoft.com/en-us/windows/terminal/tutorials/new-tab-same-directory
+      #      https://github.com/microsoft/terminal/issues/8166
+      #      https://github.com/microsoft/terminal/issues/3158
+      printf "\e]9;9;%s\e\\" "$(wslpath -w "$(pwd)")"
+  }
+
+  PROMPT_COMMAND="${PROMPT_COMMAND:+"${PROMPT_COMMAND};"}_windows_terminal_osc_9_9"
+
+fi
 
