@@ -9,6 +9,7 @@ fi
 readonly _SETUP_SOURCE="${BASH_SOURCE:-$0}"
 readonly _SETUP_SCRIPT_NAME="$(basename "${_SETUP_SOURCE}")"
 readonly _SOURCE_DIRECTORY="$(cd "$(dirname "${_SETUP_SOURCE}")" && pwd)"
+readonly _BACKUP_DIRECTORY="$(mkdir -vp "${_SOURCE_DIRECTORY}/.beforesetup/$(date "+%Y%m%d-%H%M%S.%N%z")" >&2 && cd $_ && pwd)"
 
 readonly _FULLPATH_SOURCE_DIRECTORY="${_SOURCE_DIRECTORY/#${HOME}/\$\{HOME%/\}}"
 echo "${_FULLPATH_SOURCE_DIRECTORY}"
@@ -19,6 +20,12 @@ function ProfileSetup() {
   local -r _FULLPATH_PROFILE_SOURCE_DIRECTORY="${_SOURCE_DIRECTORY/#${HOME}/\$\{HOME\}}"
 
   if [[ ! -e ${_PROFILE} ]]; then
+    echo ".profile not found"
+    return
+  fi
+
+  if grep -q -F -e "${_FULLPATH_PROFILE_SOURCE_DIRECTORY}" "${_PROFILE}"; then
+    echo ".profile already setup"
     return
   fi
 
@@ -32,6 +39,8 @@ fi
 EOL
 )"
 
+  cp --backup=t -vpt "${_BACKUP_DIRECTORY}" "${_PROFILE}"
+
   echo "${_INSERT_PROFILE_COMMAND}" >> "${_PROFILE}"
   # 末尾に改行のみの行追加
   echo >> "${_PROFILE}"
@@ -44,12 +53,12 @@ function BashrcSetup() {
 
   if [[ ! -e "${_SETUP_SOURCE}" ]]; then
     echo "not found ${_SETUP_SOURCE}"
-    exit 1
+    return 1
   fi
 
   if [[ ! -d "${_SOURCE_DIRECTORY}" ]]; then
     echo "not found ${_SOURCE_DIRECTORY}"
-    exit 1
+    return 1
   fi
 
   local -r _INSERT_SOURCE_COMMAND=$(cat <<EOL
@@ -65,15 +74,16 @@ EOL
     chmod 644 "${_BASHRC}" && \
     echo "${_INSERT_SOURCE_COMMAND}" >> "${_BASHRC}"
 
-    exit
+    return 0
   fi
 
   if grep -q -F "${_FULLPATH_SOURCE_DIRECTORY}" "${_BASHRC}" &> /dev/null; then
-    exit 0
+    echo "bashrc already setup"
+
+    return 0
   fi
 
-  local -r _BASHRC_ORG="${_BASHRC}.org"
-  cp -p --backup=t "${_BASHRC}" "${_BASHRC_ORG}"
+  cp --backup=t -vpt "${_BACKUP_DIRECTORY}" "${_BASHRC}"
 
 # HISTFILESIZEが設定されると履歴ファイルが切り詰められるのでそこだけ元のファイルからコメントアウト
   sed \
@@ -89,6 +99,27 @@ EOL
 
 }
 
+function TmuxConfSetup() {
+  local -r _TMUX_CONF="${HOME}/.tmux.conf"
+  local -r _INSERT_TMUX_CONF="${_SOURCE_DIRECTORY}/tmux/tmux.conf"
+
+  if [[ -f "${_TMUX_CONF}" ]] && grep -q -F -e "${_INSERT_TMUX_CONF}" "${_TMUX_CONF}" &> /dev/null; then
+    echo "alread tmux.conf setup"
+    return 0
+  fi
+
+  [[ -f "${_TMUX_CONF}" ]] && cp --backup=t -vpt "${_BACKUP_DIRECTORY}" "${_TMUX_CONF}"
+
+  echo "source \"${_INSERT_TMUX_CONF}\"" >> $HOME/.tmux.conf
+  # 末尾に改行挿入
+  echo >> $HOME/.tmux.conf
+
+}
+
+echo ".profile setup start"
 ProfileSetup
+echo ".bashrc setup start"
 BashrcSetup
+echo ".tmux.conf setup start"
+TmuxConfSetup
 
