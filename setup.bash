@@ -1,9 +1,23 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # vim: set expandtab ts=2 fenc=utf-8 ff=unix filetype=bash :
 
 if [[ ! -v HOME ]]; then
   echo "no environment HOME"
   exit 1
+fi
+
+if which gdate &> /dev/null; then
+
+  date () {
+    gdate "$@"
+  }
+
+fi
+
+if which gcp &> /dev/null; then
+  cp () {
+    gcp "$@"
+  }
 fi
 
 readonly _SETUP_SOURCE="${BASH_SOURCE:-$0}"
@@ -39,7 +53,7 @@ fi
 EOL
 )"
 
-  cp --backup=t -vpt "${_BACKUP_DIRECTORY}" "${_PROFILE}"
+  cp --backup=t -vpLt "${_BACKUP_DIRECTORY}" "${_PROFILE}"
 
   echo "${_INSERT_PROFILE_COMMAND}" >> "${_PROFILE}"
   # 末尾に改行のみの行追加
@@ -69,7 +83,7 @@ fi
 EOL
   )
 
-  if [[ ! -f "${_BASHRC}" ]]; then
+  if [[ ! -e "${_BASHRC}" ]]; then
     touch "${_BASHRC}" && \
     chmod 644 "${_BASHRC}" && \
     echo "${_INSERT_SOURCE_COMMAND}" >> "${_BASHRC}"
@@ -83,7 +97,7 @@ EOL
     return 0
   fi
 
-  cp --backup=t -vpt "${_BACKUP_DIRECTORY}" "${_BASHRC}"
+  cp --backup=t -vpLt "${_BACKUP_DIRECTORY}" "${_BASHRC}"
 
 # HISTFILESIZEが設定されると履歴ファイルが切り詰められるのでそこだけ元のファイルからコメントアウト
   sed \
@@ -103,16 +117,39 @@ function TmuxConfSetup() {
   local -r _TMUX_CONF="${HOME}/.tmux.conf"
   local -r _INSERT_TMUX_CONF="${_SOURCE_DIRECTORY}/tmux/tmux.conf"
 
-  if [[ -f "${_TMUX_CONF}" ]] && grep -q -F -e "${_INSERT_TMUX_CONF}" "${_TMUX_CONF}" &> /dev/null; then
+  if [[ -e "${_TMUX_CONF}" ]] && grep -q -F -e "${_INSERT_TMUX_CONF}" "${_TMUX_CONF}" &> /dev/null; then
     echo "alread tmux.conf setup"
     return 0
   fi
 
-  [[ -f "${_TMUX_CONF}" ]] && cp --backup=t -vpt "${_BACKUP_DIRECTORY}" "${_TMUX_CONF}"
+  [[ -e "${_TMUX_CONF}" ]] && cp --backup=t -vpLt "${_BACKUP_DIRECTORY}" "${_TMUX_CONF}"
 
   echo "source \"${_INSERT_TMUX_CONF}\"" >> $HOME/.tmux.conf
   # 末尾に改行挿入
   echo >> $HOME/.tmux.conf
+
+}
+
+function VimRcSetup() {
+  local -r _VIMRC="${HOME}/.vimrc"
+  local -r _INSERT_VIMRC="${_SOURCE_DIRECTORY}/vimrc"
+
+  if [[ -e "${_VIMRC}" ]] && grep -q -F -e "${_INSERT_VIMRC}" "${_VIMRC}" &> /dev/null; then
+    echo "alread tmux.conf setup"
+    return 0
+  fi
+
+  [[ -e "${_VIMRC}" ]] && cp --backup=t -vpLt "${_BACKUP_DIRECTORY}" "${_VIMRC}"
+
+#  echo "source \"${_INSERT_VIMRC}\"" >> "${_VIMRC}"
+#  echo "" >> "${_VIMRC}"
+
+  cat - <<EOL >> "${_VIMRC}"
+if filereadable('${_INSERT_VIMRC}')
+  source ${_INSERT_VIMRC}
+endif
+EOL
+  echo "" >> "${_VIMRC}"
 
 }
 
@@ -122,4 +159,7 @@ echo ".bashrc setup start"
 BashrcSetup
 echo ".tmux.conf setup start"
 TmuxConfSetup
+echo ".vimrc setup start"
+VimRcSetup
+
 
