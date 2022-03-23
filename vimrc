@@ -1,3 +1,15 @@
+" vim : set ts=2 sw=2 et filetype=vim :
+
+set encoding=utf-8
+scriptencoding utf-8
+" ↑文字コード設定
+
+" ターミナル設定
+set termguicolors
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
+" ランタイムパスに当該ディレクトリ以下を追加する
 let s:rn_directory = expand('<sfile>:p:h') . '/vim'
 
 let s:store_runtimepath=&runtimepath
@@ -6,6 +18,8 @@ let s:store_runtimepath=s:store_runtimepath . ',' . s:rn_directory . '/after'
 let &runtimepath=s:store_runtimepath
 
 " 画面
+
+colorscheme desert
 
 set number
 set cmdheight=2
