@@ -41,25 +41,43 @@ export HISTFILESIZE=65535
 export HISTIGNORE="history:history *:p[0-9n]:jobs:fg:share_history:share_history :#*"
 
 # 履歴重複削除
-function share_history {
-  local _lock=-1;
-  local _locked=0;
-  exec {_lock}>~/.bash_history.lock &&
-  flock --nonblock --exclusive ${_lock} &&
-  _locked=1 &&
-	history -a &&
-	tac ~/.bash_history |
-  sed 's/[[:blank:]]\+$//g' |
-	awk '!a[$0]++' |
-	tac > ~/.bash_history.tmp &&
-	[ -f ~/.bash_history.tmp ] &&
-	mv ~/.bash_history{.tmp,} &&
-  flock --shared ${_lock} &&
-	history -c &&
-	history -r
-  [[ ${_locked} -ne 0 ]] && flock --unlock ${_lock}
-  [[ ${_lock} -ne -1 ]] && exec {_lock}>&-
-}
+if [[ -x flock ]]; then
+
+  function share_history {
+    local _lock=-1;
+    local _locked=0;
+    exec {_lock}>~/.bash_history.lock &&
+    flock --nonblock --exclusive ${_lock} &&
+    _locked=1 &&
+    history -a &&
+    tac ~/.bash_history |
+    sed 's/[[:blank:]]\+$//g' |
+    awk '!a[$0]++' |
+    tac > ~/.bash_history.tmp &&
+    [ -f ~/.bash_history.tmp ] &&
+    mv ~/.bash_history{.tmp,} &&
+    flock --shared ${_lock} &&
+    history -c &&
+    history -r
+    [[ ${_locked} -ne 0 ]] && flock --unlock ${_lock}
+    [[ ${_lock} -ne -1 ]] && exec {_lock}>&-
+  }
+
+else
+
+  function share_history {
+    history -a &&
+    tac ~/.bash_history |
+    sed 's/[[:blank:]]\+$//g' |
+    awk '!a[$0]++' |
+    tac > ~/.bash_history.tmp &&
+    [ -f ~/.bash_history.tmp ] &&
+    mv ~/.bash_history{.tmp,} &&
+    history -c &&
+    history -r
+  }
+
+fi
 
 PROMPT_COMMAND='share_history'
 shopt -u histappend
