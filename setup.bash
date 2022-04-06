@@ -77,7 +77,7 @@ function BashrcSetup() {
 
   local -r _INSERT_SOURCE_COMMAND=$(cat <<EOL
 
-if [[ -f "${_FULLPATH_SOURCE_DIRECTORY}/${_INSERT_BASHRC}" ]]: then
+if [[ -f "${_FULLPATH_SOURCE_DIRECTORY}/${_INSERT_BASHRC}" ]]; then
   source "${_FULLPATH_SOURCE_DIRECTORY}/${_INSERT_BASHRC}"
 fi
 EOL
@@ -98,6 +98,7 @@ EOL
   fi
 
   cp --backup=t -vpLt "${_BACKUP_DIRECTORY}" "${_BASHRC}"
+  local -r _BASHRC_ORG="${_BACKUP_DIRECTORY}/.bashrc"
 
 # HISTFILESIZEが設定されると履歴ファイルが切り詰められるのでそこだけ元のファイルからコメントアウト
   sed \
