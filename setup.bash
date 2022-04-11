@@ -164,3 +164,8 @@ echo ".vimrc setup start"
 VimRcSetup
 
 
+echo "echo setup directries"
+mkdir -vp $HOME/usr/bin/local/bin
+mkdir -vp $HOME/usr/{src,lib,include,sbin}
+mkdir -vp $HOME/usr/share/man
+
