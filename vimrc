@@ -1,5 +1,7 @@
 " vim : set ts=2 sw=2 et filetype=vim :
 
+set nocompatible
+
 set encoding=utf-8
 scriptencoding utf-8
 " ↑文字コード設定
@@ -13,7 +15,7 @@ let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 let s:rn_directory = expand('<sfile>:p:h') . '/vim'
 
 let s:store_runtimepath=&runtimepath
-let s:store_runtimepath=s:store_runtimepath . ',' . s:rn_directory
+let s:store_runtimepath=s:rn_directory . ',' . s:store_runtimepath
 let s:store_runtimepath=s:store_runtimepath . ',' . s:rn_directory . '/after'
 let &runtimepath=s:store_runtimepath
 
@@ -26,10 +28,12 @@ set cmdheight=2
 
 set laststatus=2
 set cursorline
-"set cursorcolumn
+set cursorcolumn
 set display=lastline
 
 set visualbell
+
+syntax on
 
 " 編集
 set ts=2
