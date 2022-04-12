@@ -9,6 +9,19 @@
 [._]s[a-rt-v][a-z]
 [._]ss[a-gi-z]
 [._]sw[a-p]
+## plugin folders
+vim/*
+!vim/autoload/
+vim/autoload/*
+!vim/autoload/.gitkeep
+vim/bitmaps/*
+!vim/bitmaps/.gitkeep
+vim/colors/*
+!vim/colors/.gitkeep
+vim/doc/*
+!vim/doc/.gitkeep
+vim/doc/*
+!vim/doc/.gitkeep
 
 ## Session
 Session.vim
