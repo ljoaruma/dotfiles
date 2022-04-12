@@ -331,7 +331,7 @@ EOL
 fi
 
 #WIN_FFMPEG_INSTALL_DIR="$(wslpath 'C:\r\usr\ffmpeg\ffmpeg-4.4.1-full_build')"
-WIN_FFMPEG_INSTALL_DIR="$(wslpath 'C:\r\usr\ffmpeg\ffmpeg-5.0-full_build')"
+WIN_FFMPEG_INSTALL_DIR="$(wslpath 'C:\r\usr\ffmpeg\ffmpeg-5.0-full_build' 2> /dev/null )"
 
 if [[ -x "${WIN_FFMPEG_INSTALL_DIR}/bin/ffmpeg.exe" ]]; then
   export WIN_FFMPEG_INSTALL_DIR
@@ -368,7 +368,7 @@ if [[ ! -v TMUX ]]; then
       # see: https://docs.microsoft.com/en-us/windows/terminal/tutorials/new-tab-same-directory
       #      https://github.com/microsoft/terminal/issues/8166
       #      https://github.com/microsoft/terminal/issues/3158
-      printf "\e]9;9;%s\e\\" "$(wslpath -w "$(pwd)")"
+      printf "\e]9;9;%s\e\\" "$(wslpath -w "$(pwd)" 2> /dev/null)"
   }
 
   PROMPT_COMMAND="${PROMPT_COMMAND:+"${PROMPT_COMMAND};"}_windows_terminal_osc_9_9"
