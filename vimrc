@@ -21,7 +21,19 @@ let &runtimepath=s:store_runtimepath
 
 " 画面
 
-colorscheme desert
+syntax enable
+
+if filereadable(expand('~/.vim/colors/solarized.vim')) || filereadable(expand(s:rn_directory . '/colors/solarized.vim'))
+
+  set background=dark
+  colorscheme solarized
+  let g:solarized_termcolors=256
+
+else
+
+  colorscheme desert
+
+endif
 
 set number
 set cmdheight=2
@@ -33,7 +45,6 @@ set display=lastline
 
 set visualbell
 
-syntax on
 
 " 編集
 set ts=2
