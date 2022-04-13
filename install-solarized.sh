@@ -1,7 +1,8 @@
 #!/bin/bash
 # vim: set ts=2 sw=2 et si filetype=bash :
 
-declare -r VIM_RUNTIME_PATH="$(dirname "$(readlink -f "$0")")/vim"
+declare -r VIM_RUNTIME_PATH="${HOME}/.vim"
+mkdir -vp ${VIM_RUNTIME_PATH}
 
 cd ~/usr/src
 
