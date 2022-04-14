@@ -15,7 +15,7 @@ let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 let s:rn_directory = expand('<sfile>:p:h') . '/vim'
 
 let s:store_runtimepath=&runtimepath
-let s:store_runtimepath=s:rn_directory . ',' . s:store_runtimepath
+let s:store_runtimepath=s:store_runtimepath . ',' . s:rn_directory
 let s:store_runtimepath=s:store_runtimepath . ',' . s:rn_directory . '/after'
 let &runtimepath=s:store_runtimepath
 
