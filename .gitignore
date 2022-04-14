@@ -3,9 +3,9 @@
 
 # switches
 
-bash/switches/enable
+bash/switches/enable/*
 !bash/switches/enable/.gitkeep
-profile/switches/enable
+profile/switches/enable/*
 !profile/switches/enable/.gitkeep
 
 # vim
@@ -18,7 +18,7 @@ profile/switches/enable
 [._]sw[a-p]
 ## plugin folders
 vim/*
-!vim/autoload/
+!vim/autoload/.gitkeep
 vim/autoload/*
 !vim/autoload/.gitkeep
 vim/bitmaps/*
