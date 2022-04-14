@@ -1,7 +1,7 @@
 # vim: set expandtab ts=2 fenc=utf-8 ff=unix filetype=sh :
 
 # WSL service
-if uname --kernel-release | grep -q -e "microsoft" -e "WSL" > /dev/null 2>&1 ; then
+if uname --kernel-release | grep -q -e "Microsoft" -e "WSL" > /dev/null 2>&1 ; then
   . "`dirname "$BASH_SOURCE"`/wsl-service.sh"
   . "`dirname "$BASH_SOURCE"`/wsl-ssh-env.sh"
 fi

@@ -79,8 +79,10 @@ else
 
 fi
 
-PROMPT_COMMAND='share_history'
-shopt -u histappend
+if [[ -e $(dirname "${BASH_SOURCE}")/switches/enable/share-history ]]; then
+  PROMPT_COMMAND='share_history'
+  shopt -u histappend
+fi
 
 #
 
@@ -115,7 +117,8 @@ fi
 source $(dirname "${BASH_SOURCE}")/aliasrc.sh 
 source $(dirname "${BASH_SOURCE}")/utils.sh
 
-if which tmux &> /dev/null &&
+if [[ -e $(dirname "${BASH_SOURCE}")/switches/enable/tmux ]] &&
+   which tmux &> /dev/null &&
    [[ ! -v TMUX ]] &&
    ! tmux has -t main &> /dev/null; then
   tmux new -A -s main \; detach &> /dev/null

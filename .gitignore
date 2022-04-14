@@ -1,6 +1,13 @@
 # configuration file begore setup
 .beforesetup/
 
+# switches
+
+bash/switches/enable
+!bash/switches/enable/.gitkeep
+profile/switches/enable
+!profile/switches/enable/.gitkeep
+
 # vim
 ## Swap files
 [._]*.s[a-v][a-z]

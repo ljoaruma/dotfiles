@@ -12,6 +12,11 @@ if [ ! -z "$SSH_CLIENT" ]; then
 fi
 
 __restart_service () {
+
+  if [[ ! -f "$(dirname "${BASH_SOURCE}")/switches/enable/$1" ]]; then
+    return 0
+  fi
+
   if [[ ! -x /etc/init.d/$1 ]]; then
     return 1
   fi
@@ -26,6 +31,12 @@ __restart_service () {
 }
 
 __restart_anacron () {
+
+  if [[ ! -f "$(dirname "${BASH_SOURCE}")/switches/enable/anacron" ]]; then
+    return 0
+  fi
+
+
   if [[ ! -x /etc/init.d/anacron ]]; then
     return 1
   fi
@@ -41,7 +52,8 @@ if [[ $(mount -t 9p | awk '{ print $3 }' | grep -F "$(IFS=''; echo "${_fstab_res
   return 1
 fi
 
-if service ssh status &> /dev/null; then
+if [[ -f "$(dirname "${BASH_SOURCE}")/switches/enable/ssh" ]] && service ssh status &> /dev/null; then
+
   # SSHから、fstabで設定しているmountが見えていない場合は、restartする
   # WSL2の/initの関係でWindowsとの連携が上手くいってない可能性が高い
   if [[ $(ssh $USER@localhost mount -t 9p | awk '{ print $3 }' | grep -F "$(IFS=''; echo "${_fstab_reserve[*]}")" | wc -l) -ne ${#_fstab_reserve[@]} ]]; then
