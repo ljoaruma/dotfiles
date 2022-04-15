@@ -1,5 +1,9 @@
 " vim : set ts=2 sw=2 et filetype=vim :
 
+" https://github.com/vim-jp/issues/issues/578
+set t_u7=
+set t_RV=
+
 set nocompatible
 
 set encoding=utf-8
