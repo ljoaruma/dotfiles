@@ -46,7 +46,7 @@ __restart_anacron () {
 }
 
 mapfile _fstab_reserve < <(awk '$3~/\<drvfs\>/ { print $2 }' /etc/fstab)
-if [[ $(mount -t 9p | awk '{ print $3 }' | grep -F "$(IFS=''; echo "${_fstab_reserve[*]}")" | wc -l) -ne ${#_fstab_reserve[@]} ]]; then
+if [[ $(mount -t 9p | awk '{ print $3 }' | grep -F "$(IFS=''; echo "${_fstab_reserve[*]}")" | wc -l) -lt ${#_fstab_reserve[@]} ]]; then
 
   unset _fstab_reserve
   return 1
