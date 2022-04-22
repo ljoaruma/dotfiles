@@ -29,7 +29,12 @@ syntax enable
 
 if filereadable(expand('~/.vim/colors/solarized.vim')) || filereadable(expand(s:rn_directory . '/colors/solarized.vim'))
 
-  set background=dark
+  if has('gui_running')
+    set background=light
+  else
+    set background=dark
+  endif
+
   colorscheme solarized
   let g:solarized_termcolors=256
 
