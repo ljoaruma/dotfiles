@@ -165,7 +165,10 @@ VimRcSetup
 
 
 echo "echo setup directries"
+mkdir -vp $HOME/usr/{src,bin,lib,include,sbin,share,opt}
 mkdir -vp $HOME/usr/bin/local/bin
-mkdir -vp $HOME/usr/{src,lib,include,sbin}
 mkdir -vp $HOME/usr/share/man
+mkdir -vp $HOME/var/log
+mkdir -vp $HOME/tmp
+mkdir -vp $HOME/works
 
