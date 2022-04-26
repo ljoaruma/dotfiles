@@ -1,0 +1,74 @@
+# bashスクリプトの性能プロファイリング用ファイル(先頭埋め込み)
+# https://stackoverflow.com/questions/5014823/how-can-i-profile-a-bash-shell-script-slow-startup
+
+## insert to ~/.profile top
+#if [ -f $HOME/.dotfiles/bash/bashrc-profile ]; then
+#  . $HOME/.dotfiles/bash/bashrc-profile 
+#fi
+#
+## insert to ~/.profile tail
+#if [ -f $HOME/.dotfiles/bash/bashrc-profile-finish ]; then
+#  . $HOME/.dotfiles/bash/bashrc-profile-finish 
+#fi
+
+# bashか確認
+if [ ! -n "$BASH_VERSION" ]; then
+  return
+fi
+
+_BASHRC_SPEC_PROFILE_=0
+_LOG_DIRECTORY_=${HOME}/.bashrc-profile
+
+# 当スクリプト(bashrcの性能プロファイル)が必要か確認
+# ~/.bashrc-profile (ログ出力先のディレクトリ ) が有効なら、当スクリプトを有効化
+if [[ ! -d "${_LOG_DIRECTORY_}" ]]; then
+  return
+fi
+
+# set -xによる出力(標準エラー出力をリダイレクトで差し替え, teeでdateコマンドに流して当該行出力時の時間も別途出力)を
+
+_BASHRC_SPEC_PROFILE_=1
+
+exec {__profile_fn}>&2 2> >(
+  tee "${_LOG_DIRECTORY_}/bashrc-profiling-$$.log" |
+  sed 's/^.*$/now/g' |
+  date  -f - +%s.%N > "${_LOG_DIRECTORY_}/bashrc-profiling-$$.tim"; 
+)
+
+date "+%Y/%m/%d %H:%M:%S.%N %z" >&2
+echo "\$=$-" >&2
+echo "${BASH_SOURCE[@]}" >&2
+
+set -Tx
+  
+
+# You could present them by using paste:
+# ```
+# $ paste bashrc-profiling-XXXX.{tim,log}
+# ```
+#
+# Or you may even compute diff time:
+#```
+#paste <(
+#    while read tim ;do
+#        crt=000000000$((${tim//.}-10#0$last))
+#        printf "%12.9f\n" ${crt:0:${#crt}-9}.${crt:${#crt}-9}
+#        last=${tim//.}
+#      done < bashrc-profiling-XXXX.tim
+#  ) bashrc-profiling-XXXX.log
+#```
+#
+# or on two columns
+# ```
+#paste <(
+#    while read tim ;do
+#        [ -z "$last" ] && last=${tim//.} && first=${tim//.}
+#        crt=000000000$((${tim//.}-10#0$last))
+#        ctot=000000000$((${tim//.}-10#0$first))
+#        printf "%12.9f %12.9f\n" ${crt:0:${#crt}-9}.${crt:${#crt}-9} \
+#                                 ${ctot:0:${#ctot}-9}.${ctot:${#ctot}-9}
+#        last=${tim//.}
+#      done < bashrc-profiling-XXXX.tim
+#  ) bashrc-profiling-XXXX.log
+# ```
+

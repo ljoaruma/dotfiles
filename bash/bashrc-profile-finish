@@ -1,0 +1,16 @@
+# bashスクリプトの性能プロファイリング用ファイル(末尾埋め込み)
+# https://stackoverflow.com/questions/5014823/how-can-i-profile-a-bash-shell-script-slow-startup
+
+if [ ! -n "$_BASHRC_SPEC_PROFILE_" ]; then
+  return
+fi
+
+if [[ ${_BASHRC_SPEC_PROFILE_} -eq 0 ]]; then
+  return
+fi
+
+set +Tx
+
+exec 2>&${__profile_fn} {__profile_fn}>&-
+unset _BASHRC_SPEC_PROFILE_ _LOG_DIRECTORY_ __profile_fn
+

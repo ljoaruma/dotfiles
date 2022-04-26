@@ -1,0 +1,126 @@
+#!/bin/bash
+
+umask 022
+
+export LANG=ja_JP.UTF-8
+export LANGUAGE=ja
+
+export PATH=$HOME/usr/bin:$HOME/usr/local/bin:$PATH
+export MANPATH=$HOME/usr/share/man:$MANPATH
+
+PS1='\[\e]0;\u@\h: \w\a\]\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}'
+PS1+='\[\e[48;5;17m\]\[\e7\]$(printf "%*s" ${COLUMNS:-40} " ")\[\e8\]'
+PS1+='\[\e[38;5;245m\]$(date +%y-%m-%d\ %H:%M:%S) '
+PS1+='\[\e[38;5;66m\]$(dirs -v | grep -q "^[[:blank:]]*1" || exit; echo -n "["; dirs -l -v | tail -n +2 | head -n 4 | sed '\''s/^[[:blank:]]*\([[:digit:]]\+\)[[:blank:]]*\(.*\)/<\1: \2>/g'\'' | tr "'$'\n''" " "; echo -n "]")'
+#PS1+='\[\e[38;5;130m\]$( __j=$(LANG=C jobs | grep -v -e '\''^\\[[[:digit:]]\+\\][+?]\\?[[:blank:]]*Done[[:blank:]].*$'\'' | wc -l); [[ $__j -gt 0 ]] && echo "(J:${__j}) ")'
+PS1+='\[\e[38;5;130m\]$( __j=$(( $(jobs -r | wc -l) + $(jobs -s | wc -l) )); [[ $__j -gt 0 ]] && echo "(J:${__j}) ")'
+PS1+='\[\e[0m\]'$'\n'
+PS1+='\[\e[38;5;46m\]\u@\h\[\e[00m\]:'
+PS1+='\[\e[01;34m\][\w]\[\e[00m\]'
+PS1+=''$'\n\$ '
+
+if which vim > /dev/null 2>&1 ; then
+  export EDITOR=vim
+else
+  export EDITOR=vi
+fi
+
+#if [[ -v WSL_DISTRO_NAME ]]; then
+if uname --kernel-release | grep -q -e "WSL" &> /dev/null && [[ ! -v DISPLAY ]]; then
+  export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0
+fi
+
+# 標準入力端末時にctrl-sによる出力ロックを無効化
+if [[ -t 0 ]]; then
+  stty stop undef
+fi
+
+export HISTCONTROL=ignoreboth
+export HISTSIZE=65535
+export HISTFILESIZE=65535
+export HISTIGNORE="history:history *:p[0-9n]:jobs:fg:share_history:share_history :#*"
+
+# 履歴重複削除
+if [[ -x flock ]]; then
+
+  function share_history {
+    local _lock=-1;
+    local _locked=0;
+    exec {_lock}>~/.bash_history.lock &&
+    flock --nonblock --exclusive ${_lock} &&
+    _locked=1 &&
+    history -a &&
+    tac ~/.bash_history |
+    sed 's/[[:blank:]]\+$//g' |
+    awk '!a[$0]++' |
+    tac > ~/.bash_history.tmp &&
+    [ -f ~/.bash_history.tmp ] &&
+    mv ~/.bash_history{.tmp,} &&
+    flock --shared ${_lock} &&
+    history -c &&
+    history -r
+    [[ ${_locked} -ne 0 ]] && flock --unlock ${_lock}
+    [[ ${_lock} -ne -1 ]] && exec {_lock}>&-
+  }
+
+else
+
+  function share_history {
+    history -a &&
+    tac ~/.bash_history |
+    sed 's/[[:blank:]]\+$//g' |
+    awk '!a[$0]++' |
+    tac > ~/.bash_history.tmp &&
+    [ -f ~/.bash_history.tmp ] &&
+    mv ~/.bash_history{.tmp,} &&
+    history -c &&
+    history -r
+  }
+
+fi
+
+if [[ -e $(dirname "${BASH_SOURCE}")/switches/enable/share-history ]]; then
+  PROMPT_COMMAND='share_history'
+  shopt -u histappend
+fi
+
+#
+
+if [[ ! "${PWD}" = "${HOME}" ]]; then
+  pushd -n "${HOME}" &> /dev/null
+fi
+
+#
+
+# fcitxを自動的にONにする設定(2022-01-25 コメントアウト)
+
+# aliase
+
+#export DISPLAY=localhost:0.0
+
+#export PATH=$HOME/usr/bin:$HOME/usr/local/bin:$HOME/usr/local/pycharm-community-2018.2.2/bin:$PATH
+
+#export GTK_IM_MODULE=fcitx
+#export QT_IM_MODULE=fcitx
+#export XMODIFIERS=@im=fcitx
+#export DefaultIMModule=fcitx
+## fcitx-autostart
+#if xset -q > /dev/null 2>&1; then
+# xset -r 49
+#fi
+
+
+
+
+#
+
+source $(dirname "${BASH_SOURCE}")/aliasrc.sh 
+source $(dirname "${BASH_SOURCE}")/utils.sh
+
+if [[ -e $(dirname "${BASH_SOURCE}")/switches/enable/tmux ]] &&
+   which tmux &> /dev/null &&
+   [[ ! -v TMUX ]] &&
+   ! tmux has -t main &> /dev/null; then
+  tmux new -A -s main \; detach &> /dev/null
+fi
+

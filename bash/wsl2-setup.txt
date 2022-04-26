@@ -1,0 +1,20 @@
+# WSL 日本語環境のセットアップについてのメモ
+
+## 日本語言語パック
+
+```bash
+$ sudo apt -y install language-pack-ja
+```
+
+## ロケールの設定
+
+```
+$ sudo update-locale LANG=ja_JP.UTF8
+```
+
+## 日本語のmanをインストール
+
+```bash
+$ sudo apt -y install manpages-ja manpages-ja-dev
+```
+
