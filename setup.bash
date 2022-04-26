@@ -20,9 +20,13 @@ if which gcp &> /dev/null; then
   }
 fi
 
-readonly _SETUP_SOURCE="${BASH_SOURCE:-$0}"
+readonly _SETUP_SOURCE="$( \
+  [[ ! -L "${BASH_SOURCE:-$0}" ]] && \
+  echo "${BASH_SOURCE:-$0}" || \
+  echo "$(readlink -f ${BASH_SOURCE:-$0})" \
+)"
 readonly _SETUP_SCRIPT_NAME="$(basename "${_SETUP_SOURCE}")"
-readonly _SOURCE_DIRECTORY="$(cd "$(dirname "${_SETUP_SOURCE}")" && pwd)"
+readonly _SOURCE_DIRECTORY="$(cd "$(dirname "${_SETUP_SOURCE}")" && pwd -P)"
 readonly _BACKUP_DIRECTORY="$(mkdir -vp "${_SOURCE_DIRECTORY}/.beforesetup/$(date "+%Y%m%d-%H%M%S.%N%z")" >&2 && cd $_ && pwd)"
 
 readonly _FULLPATH_SOURCE_DIRECTORY="${_SOURCE_DIRECTORY/#${HOME}/\$\{HOME%/\}}"
@@ -153,6 +157,8 @@ EOL
   echo "" >> "${_VIMRC}"
 
 }
+
+exit
 
 echo ".profile setup start"
 ProfileSetup
