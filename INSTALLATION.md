@@ -116,7 +116,7 @@ make && make install
 
 各バージョン管理モジュールは、~/usr/opt 以下にインストールする(HOMEフォルダ直下のフォルダを増やしたくない)
 
-#### pythonのnenvインストール
+#### pythonのxenvインストール
 
 候補
 
@@ -154,7 +154,7 @@ pyenv rehash
 pyenv local|global xx.xx.xx
 ```
 
-#### rubyのnenvインストール
+#### rubyのxenvインストール
 
 候補
 
@@ -176,9 +176,21 @@ ${RBENV_ROOT}/bin/rbenv init
 
 [ruby-build](https://github.com/rbenv/ruby-build#readme) の インストール手順( [参考](https://github.com/rbenv/ruby-build#installation) )
 
+``` bash
+mkdir -p "$(rbenv root)"/plugins
+git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
+```
+
+[ruby-gemset](https://github.com/rbenv/ruby-build#readme) の インストール手順( [参考](https://github.com/rbenv/ruby-build#installation) )
+
+``` bash
+mkdir -p "$(rbenv root)"/plugins
+git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
+```
+
 TODO
 
-#### nodeのnenvインストール
+#### nodeのxenvインストール
 
 候補
 
@@ -192,24 +204,32 @@ TODO
 
 [volta](https://github.com/volta-cli/volta) の インストール手順( [参考](https://docs.volta.sh/guide/getting-started) )
 
-環境変数 VOLTA\_HOME にインストール場所を設定した後、上記インストール手順を実施
-
-TODO
+``` bash
+export VOLTA_HOME=$HOME/usr/opt/volta
+mkdir -vp "${VOLTA_HOME}"
+curl https://get.volta.sh | bash
+# 再ログインして、voltaまでのPATHがとっている状態であることを確認したらlatestバージョンのツールセットが利用できる状態にしておく
+volta install node@latest
+volta install npm@latest
+volta intsall yarn@latest
+```
 
 #### rust
 
-TODO
+CARGO_HOME と RUSTUP_HOM の環境変数がインストール先を制御
 
-  cargo
-
+```bash
+export RUSTUP_HOME=$HOME/usr/opt/rustup
+export CARGO_HOME=$HOME/usr/opt/cargo
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+vim ~/.bashrc
+export RUSTUP_HOME=$HOME/usr/opt/rustup
+export CARGO_HOME=$HOME/usr/opt/cargo
+source "$CART_HOME/env"
+```
 
 #### go
 
 標準機能を使うか、goenvを使うか
 
 go
-
-
-
-
-
