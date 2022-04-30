@@ -165,6 +165,56 @@ git tag
 git switch vxx.x.xx
 ```
 
+##### mac os, python 3.7.13, 3.8.13, 3.9.11 and 3.10.3 build
+
+```
+configure: error: internal configure error for the platform triplet, please file a bug report
+make: *** No targets specified and no makefile found.  Stop.
+```
+
+Mac において上記エラーメッセージでインストールに失敗する場合、以下のパッチファイルを***.patchファイルとして保存して、インストール時に適用する。コマンドは``` cat foo.patch | pyenv install -p x.xx.xx ```
+
+* pyenv installの-pオプションはビルド前にstdinからのパッチを適用する
+
+``` diff
+diff --git configure configure
+index e39c16eee2..2455870bf8 100755
+--- configure
++++ configure
+@@ -5202,10 +5202,6 @@ $as_echo "$as_me:
+   " >&6;}
+ fi
+
+-
+-MULTIARCH=$($CC --print-multiarch 2>/dev/null)
+-
+-
+ { $as_echo "$as_me:${as_lineno-$LINENO}: checking for the platform triplet based on compiler characteristics" >&5
+ $as_echo_n "checking for the platform triplet based on compiler characteristics... " >&6; }
+ cat >> conftest.c <<EOF
+@@ -5334,6 +5330,10 @@ $as_echo "none" >&6; }
+ fi
+ rm -f conftest.c conftest.out
+
++if test x$PLATFORM_TRIPLET != xdarwin; then
++  MULTIARCH=$($CC --print-multiarch 2>/dev/null)
++fi
++
+ if test x$PLATFORM_TRIPLET != x && test x$MULTIARCH != x; then
+   if test x$PLATFORM_TRIPLET != x$MULTIARCH; then
+     as_fn_error $? "internal configure error for the platform triplet, please file a bug report" "$LINENO" 5
+@@ -9230,6 +9230,9 @@ fi
+     	ppc)
+     		MACOSX_DEFAULT_ARCH="ppc64"
+     		;;
++    	arm64)
++    		MACOSX_DEFAULT_ARCH="arm64"
++    		;;
+     	*)
+     		as_fn_error $? "Unexpected output of 'arch' on OSX" "$LINENO" 5
+     		;;
+```
+
 #### rubyのxenvインストール
 
 候補
