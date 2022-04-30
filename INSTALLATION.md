@@ -181,14 +181,12 @@ mkdir -p "$(rbenv root)"/plugins
 git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
 ```
 
-[ruby-gemset](https://github.com/rbenv/ruby-build#readme) の インストール手順( [参考](https://github.com/rbenv/ruby-build#installation) )
+[ruby-gemset](https://github.com/jf/rbenv-gemset) の インストール手順( [参考](https://github.com/jf/rbenv-gemset#installation) )
 
 ``` bash
 mkdir -p "$(rbenv root)"/plugins
-git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
+git clone https://github.com/jf/rbenv-gemset.git "$(rbenv root)"/plugins/rbenv-gemset
 ```
-
-TODO
 
 #### nodeのxenvインストール
 
