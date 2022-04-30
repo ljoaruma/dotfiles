@@ -154,6 +154,17 @@ pyenv rehash
 pyenv local|global xx.xx.xx
 ```
 
+Upgrade
+
+``` bash
+cd $(pyenv root)
+git pull
+# or
+git fetch
+git tag
+git switch vxx.x.xx
+```
+
 #### rubyのxenvインストール
 
 候補
