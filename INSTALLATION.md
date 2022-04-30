@@ -47,13 +47,13 @@ Host github.com
 
 ## 共通手順
 
-1. 日本語パッケージをインストールして、一度再起動
+- 日本語パッケージをインストールして、一度再起動
 
 ``` bash
 sudo apt -y install language-pack-ja && sudo update-locale LANG=ja_JP.UTF8 && sudo apt -y install manpages-ja manpages-ja-dev
 ```
 
-2. profile内で行っているサービス起動をパスワード要求なしで起動するようsudoersを変更
+- profile内で行っているサービス起動をパスワード要求なしで起動するようsudoersを変更
 
 ``` bash
 sudo EDITOR=vim visudo
@@ -92,7 +92,6 @@ cd .dotfiles
 
 vim,gitの最新を取得&ビルド, xenv系をインストールして、各スクリプトをバージョン管理する
 
-
 ### vim
 
 必要なライブラリのインストールとセットアップ
@@ -104,6 +103,7 @@ cd ~/usr/src/vim
 ```
 
 ソースの確認等して、以下
+
 ```bash
 cd ~/usr/src/vim
 bash ~/.dotfiles/vim/configure-vim.sh
@@ -171,14 +171,14 @@ git switch vxx.x.xx
 [参照リンク2](https://github.com/pyenv/pyenv/issues/2143#issuecomment-1069269496)
 [参照リンク3](https://github.com/pyenv/pyenv/issues/2143#issuecomment-1069723477)
 
-```
+``` text
 configure: error: internal configure error for the platform triplet, please file a bug report
 make: *** No targets specified and no makefile found.  Stop.
 ```
 
 Mac において上記エラーメッセージでインストールに失敗する場合、以下のパッチファイルを***.patchファイルとして保存して、インストール時に適用する。コマンドは``` cat foo.patch | pyenv install -p x.xx.xx ```
 
-* pyenv installの-pオプションはビルド前にstdinからのパッチを適用する
+- pyenv installの-pオプションはビルド前にstdinからのパッチを適用する
 
 ``` diff
 diff --git configure configure
@@ -293,6 +293,61 @@ source "$CART_HOME/env"
 
 #### go
 
-標準機能を使うか、goenvを使うか
+- 標準のモジュール機能
+- gvm
+- genv
+  - メンテナンスが最近あまりされていない
+- vgo
+  - 日本語の情報が少ない
 
-go
+環境変数
+
+- GOROOT
+  - go の SDKのパス
+- GOPATH
+  - go1.11 以前は GOPATH/src以下のみ開発可能だった。現在はインストールしたパッケージなどを本パス以下に保管
+- GOBIN
+  - go install でコンパイルしたバイナリのインストール先、未定義なら$GOPATH/bin, GOPATHも未定義なら$HOME/bin
+
+##### goで新規のモジュールを取得する方法
+
+``` bash
+# 環境を汚したくないときは、GOPATHを設定、バイナリインストール先をGOPATH/binにしない場合は、GOPATHを設定
+export GOPATH=path/to
+export GOBIN=go/path/bin
+go install URLからhttp(s):// を除いた名前
+```
+
+gitでソース取得する場合の簡単な手順
+
+``` bash
+# 環境を汚したくないときは、GOPATHを設定、インストール先をGOPATH/binにしない場合は、GOPATHを設定
+export GOPATH=path/to
+export GOBIN=go/path/bin
+git path/to/foo.git
+cd foo
+# ネーミングルールはprefix/suffix, prefix はたとえば、githubで公開するなら、github.com/xxx の部分, suffixはパッケージ名とか
+go mod init prefix/suffix
+go mod tidy
+go install
+# または
+go build
+```
+
+###### th_platinum_searcher
+
+対象ディレクトリ以下に、複数エンコーディングが混在している場合、今の所これしか使えないので。
+
+``` bash
+# 環境を汚したくないときは、GOPATHを設定、インストール先をGOPATH/binにしない場合は、GOPATHを設定
+export GOPATH=path/to
+export GOBIN=go/path/bin
+git clone https://github.com/monochromegane/the_platinum_searcher.git
+cd the_platinum_searcher/cmd/pt
+# ネーミングルールはprefix/suffix, prefix はたとえば、githubで公開するなら、github.com/xxx の部分, suffixはパッケージ名とか
+go mod init cmd/pt
+go mod tidy
+go install
+# または
+go build
+```
