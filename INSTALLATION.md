@@ -167,6 +167,10 @@ git switch vxx.x.xx
 
 ##### mac os, python 3.7.13, 3.8.13, 3.9.11 and 3.10.3 build
 
+[参照リンク1](https://github.com/pyenv/pyenv/issues/2143)
+[参照リンク2](https://github.com/pyenv/pyenv/issues/2143#issuecomment-1069269496)
+[参照リンク3](https://github.com/pyenv/pyenv/issues/2143#issuecomment-1069723477)
+
 ```
 configure: error: internal configure error for the platform triplet, please file a bug report
 make: *** No targets specified and no makefile found.  Stop.
