@@ -274,7 +274,7 @@ curl https://get.volta.sh | bash
 # 再ログインして、voltaまでのPATHがとっている状態であることを確認したらlatestバージョンのツールセットが利用できる状態にしておく
 volta install node@latest
 volta install npm@latest
-volta intsall yarn@latest
+volta install yarn@latest
 ```
 
 #### rust
