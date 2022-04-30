@@ -17,7 +17,7 @@ profile/switches/enable/*
 [._]ss[a-gi-z]
 [._]sw[a-p]
 ## plugin folders
-vim/*
+#vim/*
 !vim/autoload/.gitkeep
 vim/autoload/*
 !vim/autoload/.gitkeep
