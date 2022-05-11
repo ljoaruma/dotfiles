@@ -122,6 +122,21 @@ make && make install
 
 ### git
 
+[ソースからのインストール](https://git-scm.com/book/ja/v2/%E4%BD%BF%E3%81%84%E5%A7%8B%E3%82%81%E3%82%8B-Git%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)
+
+``` bash
+cd ~/usr/src
+git clone https://github.com/git/git.githttps://github.com/git/git.git
+cd git
+make configure
+./configure --prefix=$HOME/usr
+make
+make all doc info
+make install install-doc install-html install-info
+```
+
+アンインストール用に一度、別のテンポラリディレクトリをprefixにして、インストールするファイル群を確認できるように沿ておくと便利。
+
 ### xenv
 
 各バージョン管理モジュールは、~/usr/opt 以下にインストールする(HOMEフォルダ直下のフォルダを増やしたくない)
