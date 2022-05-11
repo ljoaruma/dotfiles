@@ -94,10 +94,20 @@ vim,gitの最新を取得&ビルド, xenv系をインストールして、各ス
 
 ### vim
 
+[ビルド手順](https://vim-jp.org/docs/build_linux.html)
 必要なライブラリのインストールとセットアップ
 
 ```bash
-sudo apt -y install libpython3-dev ruby-dev libncurses-dev gettext
+sudo apt -y install libpython3-dev ruby-dev libncurses-dev gettext libtinfo-dev libacl1-dev libgpm-dev
+bash ~/.dotfiles/vim/setup-vim.sh
+cd ~/usr/src/vim
+```
+
+または
+```bash
+sudo apt build-dep vim
+# E: You must put some 'source' URIs in your sources.list というエラーが発生した場合は
+# /etc/apt/sources.list で deb-srcエントリーを有効化
 bash ~/.dotfiles/vim/setup-vim.sh
 cd ~/usr/src/vim
 ```
