@@ -135,7 +135,7 @@ make all doc info
 make install install-doc install-html install-info
 ```
 
-アンインストール用に一度、別のテンポラリディレクトリをprefixにして、インストールするファイル群を確認できるように沿ておくと便利。
+make uninstallがないので、インストール時のログの取得と、 ``` make prefix=/foo/bar install ... ``` などとして、インストールするファイルのリストを作成すると便利
 
 ### xenv
 
