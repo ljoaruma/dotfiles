@@ -104,6 +104,7 @@ cd ~/usr/src/vim
 ```
 
 または
+
 ```bash
 sudo apt build-dep vim
 # E: You must put some 'source' URIs in your sources.list というエラーが発生した場合は
@@ -304,7 +305,7 @@ volta install yarn@latest
 
 #### rust
 
-CARGO_HOME と RUSTUP_HOM の環境変数がインストール先を制御
+CARGO_HOME と RUSTUP_HOME の環境変数がインストール先を制御
 
 ```bash
 export RUSTUP_HOME=$HOME/usr/opt/rustup
@@ -334,7 +335,7 @@ source "$CART_HOME/env"
 - GOBIN
   - go install でコンパイルしたバイナリのインストール先、未定義なら$GOPATH/bin, GOPATHも未定義なら$HOME/bin
 
-##### goで新規のモジュールを取得する方法
+#### goで新規のモジュールを取得する方法
 
 ``` bash
 # 環境を汚したくないときは、GOPATHを設定、バイナリインストール先をGOPATH/binにしない場合は、GOPATHを設定
@@ -346,7 +347,7 @@ go install URLからhttp(s):// を除いた名前
 gitでソース取得する場合の簡単な手順
 
 ``` bash
-# 環境を汚したくないときは、GOPATHを設定、インストール先をGOPATH/binにしない場合は、GOPATHを設定
+# 環境を汚したくないときは、GOPATHを設定、インストール先をGOPATH/binにしない場合は、GOBINを設定
 export GOPATH=path/to
 export GOBIN=go/path/bin
 git path/to/foo.git
@@ -359,12 +360,12 @@ go install
 go build
 ```
 
-###### th_platinum_searcher
+#### th_platinum_searcher
 
 対象ディレクトリ以下に、複数エンコーディングが混在している場合、今の所これしか使えないので。
 
 ``` bash
-# 環境を汚したくないときは、GOPATHを設定、インストール先をGOPATH/binにしない場合は、GOPATHを設定
+# 環境を汚したくないときは、GOPATHを設定、インストール先をGOPATH/binにしない場合は、GOBINを設定
 export GOPATH=path/to
 export GOBIN=go/path/bin
 git clone https://github.com/monochromegane/the_platinum_searcher.git
