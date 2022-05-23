@@ -3,29 +3,8 @@
 if which wslpath > /dev/null 2>&1 ; then
 
   function wslpush() {
-    #echo "echo"
-    #echo "$1"
-    #echo "printf%1"
-    #printf "%q\n" "$1"
-    #echo "wslpath"
-    #wslpath "$1"
-    #echo "wslpath printf%1"
-    #wslpath $(printf "%q" "$1")
-    #pushd "$(eval wslpath \'"$1"\')"
-    #echo "pushd"
-    #pushd "$(printf "%q" $(wslpath $(printf "%q", "$1")))"
-    #pushd "$(wslpath $(printf "%q"  "$1" ))"
-    #pushd "$(wslpath "${}")"
     pushd .
     wslcd "$1"
-    #local onwslpath=$(wslpath "$1")
-    #echo "$1 -> ${onwslpath}"
-    #if [[ -f "${onwslpath}" ]]; then
-    #  onwslpath="$(dirname "${onwslpath}")"
-    #  echo "${onwslpath}"
-    #fi
-
-    #pushd "${onwslpath}"
   }
 
   export -f wslpush
@@ -35,6 +14,8 @@ if which wslpath > /dev/null 2>&1 ; then
     type net.exe &> /dev/null || exit 0
     net.exe use | awk '$0~/^OK/ { printf "%s\t%s\n", $2, $3 } '
   }
+
+  export -f __network_drives
 
   # ネットワークドライブテーブル
   # キー文字列 ネットワークドライブ文字(ex. Y: )
@@ -51,11 +32,15 @@ if which wslpath > /dev/null 2>&1 ; then
     done < <( __network_drives)
   }
 
+  export -f __init_networkdrive_mapping
+
   # mount コマンドからwslがマウントしたドライブ情報取得
   # 対象とするのは、type 9pでマウントしたドライブで、'\'を含む列
   function __mount_drives () {
     mount | grep "type 9p" | grep '\\' | sed 's|^\([^[:blank:]]*\)[[:blank:]]\+on[[:blank:]]\+\([^[:blank:]].*[^[:blank:]]\)[[:blank:]]\+type 9p[[:blank:]]\+.*$|\1\t\2|g'
   }
+
+  export -f __mount_drives
 
   # WSLがマウントしたドライブ情報テーブル
   # キー文字列 ドライブ文字(\マークまで)(ex. C:\ )
@@ -68,20 +53,17 @@ if which wslpath > /dev/null 2>&1 ; then
     local __device=""
     local __mount_point=""
     while IFS=$'\t' read -r __device __mount_point; do
-      __WSL_MOUNT_TABLE["${__device}"]="${__mount_point}"
+      __WSL_MOUNT_TABLE["$(printf "%q" "${__device}")"]="${__mount_point}"
     done < <( __mount_drives)
   }
+
+  export -f __init_mount_mapping
 
   
   # 文字列がWindows上のパスか判定する
   function __is_winpath() {
 
-    #set -xTu
-    #declare -p __WSL_MOUNT_TABLE
-
     if [[ $# -lt 1 ]]; then
-      #set +xTu
-
       return 1
     fi
 
@@ -89,53 +71,40 @@ if which wslpath > /dev/null 2>&1 ; then
 
     ## 先頭がスラッシュのケースや、'./',  また、'.'1文字のケースはLinuxパスと判定する
 
-    #echo "-- check first letter" >&2
-
     if [[ "/" = "${__input_path:0:1}" ]]; then
-      #echo "-- first letter slash" >&2
-      #set +xTu
-
       return 127
     fi
 
     if [[ "./" = "${__input_path:0:2}" ]]; then
-      #echo "-- first letter dot slash" >&2
-      #set +xTu
-
       return 127
     fi
 
     if [[ 1 -eq ${#__input_path} ]] && [[ "." = "${__input_path}" ]]; then
-      #echo "-- dot only" >&2
-      #set +xTu
-
       return 127
     fi
 
     ## 先頭3文字がマウントしているドライブ文字であれば、Windowsパスと判定する
+    ## (UNCパスについては対象外)
     ## -vテスト(定義有無)の判定に用いるインデックスはエスケープする必要があるので、エスケープ文字列も用意する
 
+    ## マウント情報初期化
+    __init_mount_mapping
+
     local -u __INPUT_DRIVE_NAME="${__input_path:0:3}"
-    local -u __INPUT_DRIVE_NAME_ESCAPED="$(printf '%q' "${__input_path:0:3}")"
+    local -u __INPUT_DRIVE_NAME_ESCAPED="$(printf '%q' "${__INPUT_DRIVE_NAME}")"
 
     if [[ -v __WSL_MOUNT_TABLE["${__INPUT_DRIVE_NAME_ESCAPED}"] ]] && 
        [[ ! -z ${__WSL_MOUNT_TABLE["${__INPUT_DRIVE_NAME}"]} ]]; then
-      #set +xTu
 
       return 0
     fi
 
     ## スラッシュを含まず、円マークを含む場合は、Windowsパスと判定する
     if [[ ! "${__input_path}" = */* ]] && [[ "${__input_path}" = *\\* ]]; then
-      #echo "-- noinclude slash, and include yen mark"
-      #set +xTu
-
       return 0
     fi
 
     # とりあえず上記以外はLinuxパスとしておく
-
-    #set +xTu
 
     return 126
 
@@ -144,6 +113,11 @@ if which wslpath > /dev/null 2>&1 ; then
   export -f __is_winpath
 
   function wslcd() {
+    if [[ $# -lt 1 ]]; then
+      wslpath -w "${PWD}"
+      return
+    fi
+
     if __is_winpath "$1"; then
       local onwslpath="$(wslpath "$1")"
     else
@@ -163,7 +137,7 @@ if which wslpath > /dev/null 2>&1 ; then
   export -f wslcd
 
   function smbpath() {
-    #set -xTu
+    # TODO __WSL_NETWORK_DRIVE を利用するよう変更する
 
     if [[ $# -eq 0 ]]; then
 
@@ -319,14 +293,13 @@ EOL
       -e 's|/mnt/y/|/data/garbages/|g' \
       -e 's|/mnt/w/|/data/datas/|g' \
       -e 's|/mnt/x/|/data/musics/|g'
-
-    #set +xTu
   }
 
   export -f smbpath
 
-  __init_networkdrive_mapping
-  __init_mount_mapping
+  # 毎ログイン時のネットワークドライブ/マウント情報初期化の処理に時間がかかるようなので、コマンド実行時に行うよう変更
+  #__init_networkdrive_mapping
+  #__init_mount_mapping
 
 fi
 
