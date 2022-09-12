@@ -5,6 +5,24 @@ umask 022
 export LANG=ja_JP.UTF-8
 export LANGUAGE=ja
 
+__add_front_mypath () {
+  export PATH="$(
+    declare -A paths
+    echo -n "${1}";
+    #echo "${1}";
+    paths["${1}"]=1
+    echo "${PATH}:" | while IFS= read -d ':' -r p; do
+      if [[ -v paths["${p}"] ]]; then
+        continue;
+      fi;
+      echo -n ":${p}";
+      #echo ":${p}";
+      paths["${p}"]=1
+      #declare -p paths
+    done;
+  )"
+}
+
 export PATH=$HOME/usr/bin:$HOME/usr/local/bin:$PATH
 export MANPATH=$HOME/usr/share/man:$MANPATH
 
