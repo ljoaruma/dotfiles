@@ -24,7 +24,7 @@ alias pback='pushd "${OLDPWD}"'
 
 ! readlink -f . &> /dev/null && which greadlink &> /dev/null && alias readlink='greadlink'
 
-[[ -d /var/lib/mlocate ]] && __locate_dbs=$(find /var/lib/mlocate -type f -name "*.db" -not -name "mlocate.db" | tr \\n : | sed 's/:$//g') && [[ -n "${__locate_dbs}" ]] && alias locate="locate --database ${__locate_dbs}"
+[[ -d /var/lib/plocate ]] && __locate_dbs=$(find /var/lib/plocate -type f -name "*.db" -not -name "plocate.db" | tr \\n : | sed 's/:$//g') && [[ -n "${__locate_dbs}" ]] && alias locate="locate --database ${__locate_dbs}"
 unset __locate_dbs
 
 alias rsyncn='rsync -avhsn --stats --progress'
