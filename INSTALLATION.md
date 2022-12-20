@@ -137,6 +137,21 @@ make install install-doc install-html install-info
 ```
 
 make uninstallがないので、インストール時のログの取得と、 ``` make prefix=/foo/bar install ... ``` などとして、インストールするファイルのリストを作成すると便利
+``` bash
+git fetch origin
+mkdir -vp $HOME/var/tmp/git
+make prefix=$HOME/var/tmp/git install install-doc install-html install-info
+make clean
+make distclean
+git rebase x.xx.xxx
+find $HOME/var/tmp/git -type f -print0 | sed -z 's|'$HOME'/var/tmp/git|'$HOME'/usr|g' | xargs -0 rm -v
+
+make configure
+./configure --prefix=$HOME/usr
+make
+make all doc info
+make install install-doc install-html install-info
+```
 
 ### xenv
 
