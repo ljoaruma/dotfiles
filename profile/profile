@@ -2,7 +2,8 @@
 
 # WSL service
 if uname --kernel-release | grep -q -e "Microsoft" -e "WSL" > /dev/null 2>&1 ; then
-  [ -f "`dirname "$BASH_SOURCE"`/wsl-service.sh" ] && . "`dirname "$BASH_SOURCE"`/wsl-service.sh"
+  #[ -f "`dirname "$BASH_SOURCE"`/wsl-service.sh" ] && . "`dirname "$BASH_SOURCE"`/wsl-service.sh"
   [ -f "`dirname "$BASH_SOURCE"`/wsl-ssh-env.sh" ] && . "`dirname "$BASH_SOURCE"`/wsl-ssh-env.sh"
+  : ;
 fi
 
