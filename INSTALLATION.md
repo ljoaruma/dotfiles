@@ -143,7 +143,8 @@ mkdir -vp $HOME/var/tmp/git
 make prefix=$HOME/var/tmp/git install install-doc install-html install-info
 make clean
 make distclean
-git rebase x.xx.xxx
+GIT_INSTALL_VERSION="$(git tag -l --sort=-v:refname | head -n1)"
+git rebase "${GIT_INSTALL_VERSION}"
 find $HOME/var/tmp/git -type f -print0 | sed -z 's|'$HOME'/var/tmp/git|'$HOME'/usr|g' | xargs -0 rm -v
 
 make configure
