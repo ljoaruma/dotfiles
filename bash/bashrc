@@ -26,16 +26,50 @@ __add_front_mypath () {
 export PATH=$HOME/usr/bin:$HOME/usr/local/bin:$PATH
 export MANPATH=$HOME/usr/share/man:$MANPATH
 
+# debian_chroot chroot 使用中かを示す
+# \u ユーザ名
+# \h ホスト名(最初のドットまで)
+# \n 改行
+# \r 復帰
+# \w カレントディレクトリ
+# \j ジョブ数
+# \t HH:MM:SS 24時間制の時間
+# /D{format} formatがstrftimeに渡された結果の文字列
+# \$ uidが0の場合#, それ以外は$
+# \[ ... \] シーケンスの開始から終了
+# \[\e[..\] 装飾開始 \[\e[0m\] 装飾終了
+# カラーシーケンスについて
+## 16色カラー
+## \033[属性;前景色;背景色m
+## 256食カラー
+## 前景色 \033[38;5;色番号m
+## 背景色 \033[48;5;色番号m
+## カラーシーケンス一覧
+## for ((i = 0; i < 16; i++)); do for ((j = 0; j < 16; j++)); do for ((k = 0; k < 16; k++)); do for ((l = 0; l < 16; l++)); do hex=$(($i*16 + $j)); hex2=$(($k*16 + $l)); printf '\e[38;5;%dm\e[48;5;%dm%03d-%03d\e[m ' $hex $hex2 $hex $hex2; done; echo ""; done; done; done
+## 24bitカラー
+## 前景色 \033[38;2;赤;緑;青m
+## 背景色 \033[48;2;赤;緑;青m
+# その他エスケープシーケンス
+## \E7 保存
+## \E8 復帰
+# 以下の形式のプロンプト
+# debian_chroot、日付、pushdディレクトリ群、バックグラウンドジョブ数
+# ユーザ名@ホスト名:PWD
+# $ 
+__prompt_decorate_end='\[\e[00m\]'
 PS1='\[\e]0;\u@\h: \w\a\]\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}'
-PS1+='\[\e[48;5;17m\]\[\e7\]$(printf "%*s" ${COLUMNS:-40} " ")\[\e8\]'
-PS1+='\[\e[38;5;245m\]$(date +%y-%m-%d\ %H:%M:%S) '
-PS1+='\[\e[38;5;66m\]$(dirs -v | grep -q "^[[:blank:]]*1" || exit; echo -n "["; dirs -l -v | tail -n +2 | head -n 4 | sed '\''s/^[[:blank:]]*\([[:digit:]]\+\)[[:blank:]]*\(.*\)/<\1: \2>/g'\'' | tr "'$'\n''" " "; echo -n "]")'
-#PS1+='\[\e[38;5;130m\]$( __j=$(LANG=C jobs | grep -v -e '\''^\\[[[:digit:]]\+\\][+?]\\?[[:blank:]]*Done[[:blank:]].*$'\'' | wc -l); [[ $__j -gt 0 ]] && echo "(J:${__j}) ")'
-PS1+='\[\e[38;5;130m\]$( __j=$(( $(jobs -r | wc -l) + $(jobs -s | wc -l) )); [[ $__j -gt 0 ]] && echo "(J:${__j}) ")'
-PS1+='\[\e[0m\]'$'\n'
-PS1+='\[\e[38;5;46m\]\u@\h\[\e[00m\]:'
-PS1+='\[\e[01;34m\][\w]\[\e[00m\]'
-PS1+=''$'\n\$ '
+#PS1+='\[\e[48;5;17m\]\[\e7\]$(printf "%*s" ${COLUMNS:-40} " ")\[\e8\]'
+PS1+='\[\e[48;5;17m\]\r$(printf "%*s" ${COLUMNS:-40} " ")\r'
+PS1+='\[\e[38;5;245m\]\D{%y-%m-%d %H:%M:%S} '
+__prompt_dirs='$(dirs -v | grep -q "^[[:blank:]]*1" || exit; echo -n "["; dirs -l -v | tail -n +2 | head -n 4 | sed '\''s/^[[:blank:]]*\([[:digit:]]\+\)[[:blank:]]*\(.*\)/<\1: \2>/g'\'' | tr "\n''" " "; echo -n "] ")'
+PS1+='\[\e[38;5;66m\]'$__prompt_dirs
+PS1+='\[\e[38;5;130m\]J:\j'
+PS1+=$__prompt_decorate_end'\n'
+__prompt_userhost_color='\[\e[48;5;29m\]\[\e[38;5;213m\]'
+PS1+=$__prompt_userhost_color'\u@\h'$__prompt_decorate_end':'
+__prompt_cwd_color='\[\e[01\]\[\e[48;5;124m\]\[\e[38;5;47m\]'
+PS1+=${__prompt_cwd_color}'[\w]'${__prompt_decorate_end}
+PS1+='\n\$ '
 
 if which vim > /dev/null 2>&1 ; then
   export EDITOR=vim
