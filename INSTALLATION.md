@@ -154,6 +154,18 @@ make all doc info
 make install install-doc install-html install-info
 ```
 
+### tmux
+
+``` bash
+cd ~/usr/src
+git clone https://github.com/tmux/tmux.git
+cd tmux.git
+./configure --prefix ${HOME}/usr --enable-static
+make
+make install
+```
+
+
 ### xenv
 
 各バージョン管理モジュールは、~/usr/opt 以下にインストールする(HOMEフォルダ直下のフォルダを増やしたくない)
