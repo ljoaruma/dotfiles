@@ -98,7 +98,7 @@ vim,gitの最新を取得&ビルド, xenv系をインストールして、各ス
 必要なライブラリのインストールとセットアップ
 
 ```bash
-sudo apt -y install libpython3-dev ruby-dev libncurses-dev gettext libtinfo-dev libacl1-dev libgpm-dev
+sudo apt -y install libpython3-dev ruby-dev libncurses-dev gettext libtinfo-dev libacl1-dev libgpm-dev liblua5.1-dev
 bash ~/.dotfiles/vim/setup-vim.sh
 cd ~/usr/src/vim
 ```
