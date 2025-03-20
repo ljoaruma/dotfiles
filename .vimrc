@@ -231,6 +231,9 @@ let g:vimshell_temporary_directory = expand('$HOME/vimfiles/.vimlocal/.vimshell'
 set foldmethod=syntax
 set foldlevel=20
 
+" diff
+set diffopt=internal,filler,algorithm:histogram,indent-heuristic
+
 " buffer / window / tab
 " nnoremap C :bd<CR>
 nnoremap <silent> <C-C> :<C-u>call <SID>close_tab_last_delete_buffer()<CR>
