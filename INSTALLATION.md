@@ -152,6 +152,11 @@ make configure
 make
 make all doc info
 make install install-doc install-html install-info
+
+mkdir -vp $HOME/var/tmp/git
+make prefix=$HOME/var/tmp/git install install-doc install-html install-info
+mkdir -vp .local-memo
+find $HOME/var/tmp/git -type f > .local-memo/INSTALL-FILES-$(GIT_INSTALL_VERSION)
 ```
 
 ### tmux
