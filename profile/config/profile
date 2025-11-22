@@ -1,0 +1,23 @@
+# vim: set expandtab ts=2 fenc=utf-8 ff=unix filetype=sh :
+
+# XDG Base Directory Specification
+# ---
+# https://specifications.freedesktop.org/basedir/latest/
+# https://wiki.archlinux.jp/index.php/XDG_Base_Directory
+
+# There is a single base directory relative to which user-specific configuration files should be written. This directory is defined by the environment variable $XDG_CONFIG_HOME.
+# ユーザー固有の設定ファイルを書き込むディレクトリ
+export XDG_CONFIG_HOME=$HOME/.config
+
+# There is a single base directory relative to which user-specific non-essential (cached) data should be written. This directory is defined by the environment variable $XDG_CACHE_HOME.
+# ユーザー固有の重要ではない(キャッシュ)データを書き込むディレクトリ
+export XDG_CACHE_HOME=$HOME/.cache
+
+# There is a single base directory relative to which user-specific data files should be written. This directory is defined by the environment variable $XDG_DATA_HOME.
+# ユーザ固有のデータファイルを書き込むディレクトリ
+export XDG_DATA_HOME=$HOME/.local/share
+
+# There is a single base directory relative to which user-specific state data should be written. This directory is defined by the environment variable $XDG_STATE_HOME.
+# ユーザ固有の状態ファイルを書き込むディレクトリ
+export XDG_STATE_HOME=$HOME/.local/state
+
