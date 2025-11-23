@@ -21,3 +21,19 @@ export XDG_DATA_HOME=$HOME/.local/share
 # ユーザ固有の状態ファイルを書き込むディレクトリ
 export XDG_STATE_HOME=$HOME/.local/state
 
+# set PATH
+
+if [ -d "$HOME/.local/bin" ]; then
+  PATH="$HOME/.local/bin:$PATH"
+fi
+
+if [ -d "$HOME/.local/local/bin" ]; then
+  PATH="$HOME/.local/local/bin:$PATH"
+fi
+
+# set MANPATH
+
+if [ -d "$HOME/.local/share/man" ]; then
+  MANPATH="$HOME/.local/share/man:$MANPATH"
+fi
+
