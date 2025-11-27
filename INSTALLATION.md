@@ -361,6 +361,8 @@ source "$CART_HOME/env"
 
 環境変数
 
+現在は `go env -m XXXX=XX` を使用して設定するのが望ましい
+
 - GOROOT
   - go の SDKのパス
 - GOPATH

@@ -10,6 +10,9 @@ mkdir -vp "${XDG_DATA_HOME:-${HOME}/.local/share}"
 mkdir -vp "${XDG_STATE_HOME:-${HOME}/.local/state}"
 
 mkdir -vp ${HOME}/.local/{src,bin,lib,include,sbin,share,opt}
+#mkdir -vp ${HOME}/.local/{src,bin,lib,include,sbin,share,opt}
+#mkdir -vp ${HOME}/.local/share/{src,bin,lib,include,sbin,share,opt}
+#mkdir -vp ${HOME}/.local/usr/{src,bin,lib,include,sbin,share,opt}
 
 # setup profile source 
 # ===
