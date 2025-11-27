@@ -82,14 +82,6 @@ sudo apt install -y binutils-doc cpp-doc g++-multilib autoconf automake libtool 
 sudo apt-mark auto libstdc++-9-doc binutils-doc cpp-doc g++-multilib gcc-doc glibc-doc make-doc
 ```
 
-### 設定ファイルリポジトリダウンロードと設定
-
-``` bash
-git clone --branch=dev/slimming-down git@github.com:ljoaruma/dotfiles.git .dotfiles
-cd .dotfiles
-./setup.bash
-```
-
 vim,gitの最新を取得&ビルド, xenv系をインストールして、各スクリプトをバージョン管理する
 
 ### vim
