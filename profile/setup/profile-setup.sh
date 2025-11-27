@@ -66,3 +66,8 @@ echo "" >> $HOME/.profile
 cat "${STORED_CONF_DIRECTORY_}/.profile" >> $HOME/.profile
 echo "" >> $HOME/.profile
 
+###
+
+# disable login message
+touch /home/ryo/.hushlogin
+
