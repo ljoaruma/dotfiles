@@ -1,6 +1,9 @@
 #!/bin/bash
 # vim: set expandtab ts=2 fenc=utf-8 ff=unix filetype=sh :
 
+# エラー発生時は即中断
+set -eu -o pipefail
+
 # setup bashhistory
 
 readonly BASH_STATE_="${XDG_STATE_HOME:-${HOME}/.local/state}/bash"

@@ -1,6 +1,9 @@
 #!/bin/bash
 # vim: set expandtab ts=2 fenc=utf-8 ff=unix filetype=sh :
 
+# エラー発生時は即中断
+set -eu -o pipefail
+
 # Create XDB Base Directory
 # ===
 
