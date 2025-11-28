@@ -20,19 +20,19 @@ readonly MY_BASHRC_="${MY_BASHRC_DIRECTORY_}/config/bashrc"
 readonly MY_BASHRC_CONFIG_="${XDG_CONFIG_HOME:-${HOME}/.config}/bash"
 
 if [ -d "${MY_BASHRC_CONFIG_}" ]; then
-  echo "exit ${MY_BASHRC_CONFIG_}(directory)"
+  echo "exist ${MY_BASHRC_CONFIG_}(directory)"
   return
 fi
 if [ -f "${MY_BASHRC_CONFIG_}" ]; then
-  echo "exit ${MY_BASHRC_CONFIG_}(file)"
+  echo "exist ${MY_BASHRC_CONFIG_}(file)"
   return
 fi
 if [ -e "${MY_BASHRC_CONFIG_}" ]; then
-  echo "exit ${MY_BASHRC_CONFIG_}(other)"
+  echo "exist ${MY_BASHRC_CONFIG_}(other)"
   return
 fi
 
-ln -sf "${MY_BASHRC_DIRECTORY_}/config" "${MY_BASHRC_CONFIG_}"
+ln -sfv "${MY_BASHRC_DIRECTORY_}/config" "${MY_BASHRC_CONFIG_}"
 
 ## insert source my bashrc to .bashrc
 
