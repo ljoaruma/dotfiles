@@ -1,7 +1,10 @@
 #!/bin/bash
 # vim: set ts=2 sw=2 et si filetype=bash :
 
-declare -r VIM_RUNTIME_PATH="${HOME}/.vim"
+# エラー発生時は即中断
+set -eu -o pipefail
+
+declare -r VIM_RUNTIME_PATH="${XDG_CONFIG_HOME}/vim"
 declare -r VIM_RUNTIME_PATH_WIN="${HOME}/vimfiles"
 mkdir -vp ${VIM_RUNTIME_PATH}
 
@@ -9,7 +12,7 @@ mkdir -vp ${VIM_RUNTIME_PATH}
 if [[ -v OS ]] && [[ "${OS}" = *Windows* ]]; then
   declare -r SOLALIZE_INSTALLPATH=$HOME/vim-plug-ins
 else
-  declare -r SOLALIZE_INSTALLPATH=~/usr/src
+  declare -r SOLALIZE_INSTALLPATH=~/.local/opt
 fi
 
 mkdir -vp "${SOLALIZE_INSTALLPATH}"

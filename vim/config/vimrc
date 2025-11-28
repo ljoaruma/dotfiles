@@ -24,10 +24,13 @@ let s:my_runtimepath = empty($XDG_CONFIG_HOME) ?
 set encoding=utf-8
 scriptencoding utf-8
 
+" ターミナル設定
+" set termguicolors
+
 " 画面
 syntax enable
 
-if filereadable(expand(s:my_runtimepath . 'colors/solarized.vim'))
+if filereadable(expand(s:my_runtimepath . '/colors/solarized.vim'))
 
   if has('gui_running')
     set background=light
@@ -36,7 +39,7 @@ if filereadable(expand(s:my_runtimepath . 'colors/solarized.vim'))
   endif
 
   colorscheme solarized
-  "let g:solarized_termcolors=256
+  let g:solarized_termcolors=256
 
 else
 
