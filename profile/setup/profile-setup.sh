@@ -50,7 +50,7 @@ EOL
 )"
 
 ### original .profile backup
-readonly STORED_CONF_DIRECTORY_="${XDG_DATA_HOME:-${HOME}/.local/share}/.storedconf/profile"
+readonly STORED_CONF_DIRECTORY_="${XDG_DATA_HOME:-${HOME}/.local/share}/dotfiles/stored"
 if [ -f  "${STORED_CONF_DIRECTORY_}/.profile" ]; then
   # すでに退避済みのファイルがある場合はセットアップ済みとして終了
   echo ".profile already setup(stored)"

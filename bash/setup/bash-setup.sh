@@ -37,7 +37,7 @@ ln -sf "${MY_BASHRC_DIRECTORY_}/config" "${MY_BASHRC_CONFIG_}"
 ## insert source my bashrc to .bashrc
 
 ### original .bashrc backup
-readonly STORED_CONF_DIRECTORY_="${XDG_DATA_HOME:-${HOME}/.local/share}/.storedconf/bash"
+readonly STORED_CONF_DIRECTORY_="${XDG_DATA_HOME:-${HOME}/.local/share}/dotfiles/stored"
 if [ -f  "${STORED_CONF_DIRECTORY_}/.bashrc" ]; then
   # すでに退避済みのファイルがある場合はセットアップ済みとして終了
   echo ".bashrc already setup(stored)"
