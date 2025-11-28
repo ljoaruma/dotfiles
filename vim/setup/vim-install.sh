@@ -37,12 +37,12 @@ cd $HOME/.local/src/vim
 git fetch origin
 
 export TARGET_TAG="$(git describe --tags origin/HEAD)"
-echo "install version ${TARGET_TAG} OK?"
+echo "install version ${TARGET_TAG} OK?(press any key)"
 read
 
 git switch --detach "${TARGET_TAG}"
 
-## configure
+## configure & make & install
 
 "${SCRIPT_DIRECTORY}"/vim-configure.sh &&
 make clean && make && make install || { echo "failed vim imstall"; exit 1; }
