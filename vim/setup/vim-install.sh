@@ -23,17 +23,19 @@ sudo apt install luajit2 libluajit2-5.1-dev
 
 ## リポジトリクローン(最新タグをチェックアウト)
 
-if [ ! -d $HOME/.local/src ]; then
-  mkdir -vp $HOME/.local/src
+readonly VIM_SOURCE_DIR="${XDG_DATA_HOME:-${HOME}/.local/share}/src"
+
+if [ ! -d "${VIM_SOURCE_DIR}" ]; then
+  mkdir -vp "${VIM_SOURCE_DIR}"
 fi
 
-cd $HOME/.local/src
+cd "${VIM_SOURCE_DIR}"
 
-if [ ! -d $HOME/.local/src/vim ]; then
+if [ ! -d "${VIM_SOURCE_DIR}/vim" ]; then
   git clone https://github.com/vim/vim.git
 fi
 
-cd $HOME/.local/src/vim
+cd "${VIM_SOURCE_DIR}/vim"
 git fetch origin
 
 export TARGET_TAG="$(git describe --tags origin/HEAD)"
