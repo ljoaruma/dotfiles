@@ -4,17 +4,19 @@
 # エラー発生時は即中断
 set -eu -o pipefail
 
-declare -r VIM_RUNTIME_PATH="${XDG_CONFIG_HOME}/vim"
+declare -r VIM_RUNTIME_PATH="${XDG_DATA_HOME:-${HOME}/.local/share}/vim.runtime"
 declare -r VIM_RUNTIME_PATH_WIN="${HOME}/vimfiles"
 mkdir -vp ${VIM_RUNTIME_PATH}
 
 if [[ -v OS ]] && [[ "${OS}" = *Windows* ]]; then
   declare -r SOLALIZE_INSTALLPATH=$HOME/vim-plug-ins
 else
-  declare -r SOLALIZE_INSTALLPATH=~/.local/opt
+  declare -r SOLALIZE_INSTALLPATH="${VIM_RUNTIME_PATH}/pack/themes/opt"
 fi
 
-git clone https://github.com/lifepillar/vim-solarized8.git ${XDG_CONFIG_HOME}/vim/pack/themes/opt/solarized8
+mkdir -vp "${SOLALIZE_INSTALLPATH}"
+cd "${SOLALIZE_INSTALLPATH}"
+git clone https://github.com/lifepillar/vim-solarized8.git
 
 exit
 

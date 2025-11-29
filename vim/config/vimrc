@@ -9,15 +9,22 @@ source $VIMRUNTIME/defaults.vim
 
 " ランタイムパス
 
-let s:my_runtimepath = empty($XDG_CONFIG_HOME) ?
-                                \ expand($XDG_CONFIG_HOME . '/vim') :
-                                \ expand('$HOME/.config/vim')
+let s:my_runtimepath = empty($XDG_DATA_HOME) ?
+                                \ expand($XDG_CONFIG_HOME . '/vim.runtime') :
+                                \ expand('$HOME/.local/share/vim.runtime')
 
-"if isdirectory(s:my_runtimepath)
-"  let &runtimepath=s:my_runtimepath
-"                      \ . ',' . &runtimepath
-"                      \ . ',' . s:my_runtimepath . "/after"
-"endif
+if isdirectory(s:my_runtimepath)
+
+  let &runtimepath=
+                      \ &runtimepath
+                      \ . ',' . s:my_runtimepath
+                      \ . ',' . s:my_runtimepath . "/after"
+
+  let &packpath=
+                      \ &packpath
+                      \ . ',' . s:my_runtimepath
+                      \ . ',' . s:my_runtimepath . "/after"
+endif
 
 " 文字コード設定
 
