@@ -44,3 +44,23 @@ setup.bash
 
 モジュールごとの設定ファイルをconfig以下に格納。setupスクリプトがconfigなどの配置等モジュールの必要な設定を行う。installスクリプトはモジュールのソースビルド等を行う。
 
+## インストール先
+
+XDG Base Directoryに従う
+* [Arch Linux Wiki](https://wiki.archlinux.jp/index.php/XDG_Base_Directory)
+* [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir/latest/)
+
+配置の基本方針
+
+---
+* dotfiles -> XDG\_CONFIG\_HOME/dotfiles
+* 各設定 -> XDG\_CONFIG\_HOME/[アプリ名]
+---
+* ソースビルドのソース配置場所 -> XDG\_DATA\_HOME/src/[アプリ名]
+* ソースビルドのPREFIX -> $HOME/.local
+* ソースビルドのPREFIX(別途パスを通すパッケージのみのディレクトリに格納する場合) -> $HOME/.local/opt/[アプリ名]
+---
+* ログ等 -> $XDG\_STATE\_HOME/[アプリ名]
+---
+* dotfilesで上書きする設定ファイルのバックアップ先 -> $XDG\_DATA\_HOME/dotfiles/stored/[アプリ名]
+
