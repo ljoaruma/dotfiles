@@ -47,5 +47,5 @@ git switch --detach "${TARGET_TAG}"
 ## configure & make & install
 
 "${SCRIPT_DIRECTORY}"/vim-configure.sh &&
-make clean && make && make install || { echo "failed vim imstall"; exit 1; }
+  make clean && make -j $( expr $(cat /proc/cpuinfo | grep processor | wc -l) / 2 + 1) && make install || { echo "failed vim imstall"; exit 1; }
 
