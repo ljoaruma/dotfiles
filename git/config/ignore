@@ -1,0 +1,96 @@
+/.local-memo
+
+# https://github.com/github/gitignore
+
+## vim
+## ---
+## https://raw.githubusercontent.com/github/gitignore/refs/heads/main/Global/Vim.gitignore
+
+# Swap
+[._]*.s[a-v][a-z]
+# comment out the next line if you don't need vector files
+!*.svg
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+
+# Session
+Session.vim
+Sessionx.vim
+
+# Temporary
+.netrwhist
+*~
+# Auto-generated tag files
+tags
+# Persistent undo
+[._]*.un~
+
+## tags
+## ---
+## https://raw.githubusercontent.com/github/gitignore/refs/heads/main/Global/Tags.gitignore
+
+# Ignore tags created by etags, ctags, gtags (GNU global) and cscope
+TAGS
+.TAGS
+!TAGS/
+tags
+.tags
+!tags/
+gtags.files
+GTAGS
+GRTAGS
+GPATH
+GSYMS
+cscope.files
+cscope.out
+cscope.in.out
+cscope.po.out
+
+## viertualenv
+## ---
+## https://raw.githubusercontent.com/github/gitignore/refs/heads/main/Global/VirtualEnv.gitignore
+
+# Virtualenv
+# https://realpython.com/python-virtual-environments-a-primer/#the-virtualenv-project
+.Python
+[Bb]in
+[Ii]nclude
+[Ll]ib
+[Ll]ib64
+[Ll]ocal
+[Ss]cripts
+pyvenv.cfg
+.venv
+pip-selfcheck.json
+
+## VisualStudioCode
+## ---
+## https://github.com/github/gitignore/raw/refs/heads/main/Global/VisualStudioCode.gitignore
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+!*.code-workspace
+
+# Built Visual Studio Code Extensions
+*.vsix
+
+## diff
+## ---
+## https://github.com/github/gitignore/raw/refs/heads/main/Global/Diff.gitignore
+
+*.patch
+*.diff
+
+## patch
+## ---
+## https://github.com/github/gitignore/raw/refs/heads/main/Global/Patch.gitignore
+
+*.orig
+*.rej
+

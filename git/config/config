@@ -1,0 +1,8 @@
+[user]
+	email = 9197675+ljoaruma@users.noreply.github.com
+	name = ljoaruma
+
+[alias]
+  sb = status -sb
+  lg = log --graph --oneline --decorate --abbrev-commit
+

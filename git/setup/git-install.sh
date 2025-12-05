@@ -36,8 +36,6 @@ make -j $( expr $(cat /proc/cpuinfo | grep processor | wc -l) / 2 + 1) all
 make -j $( expr $(cat /proc/cpuinfo | grep processor | wc -l) / 2 + 1) doc
 make -j $( expr $(cat /proc/cpuinfo | grep processor | wc -l) / 2 + 1) info
 
-read
-
 mkdir -vp "${GIT_INSTALLLIST_WORK}"
 make prefix="${GIT_INSTALLLIST_WORK}" install install-doc install-html install-info
 make install install-doc install-html install-info
