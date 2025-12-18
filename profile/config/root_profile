@@ -1,0 +1,12 @@
+# vim: set expandtab ts=2 fenc=utf-8 ff=unix filetype=sh :
+
+# source by my profile
+if [ -f "${HOME}/.config/profile/profile" ]; then
+  . "${HOME}/.config/profile/profile"
+fi
+
+# source by default profile
+if [ -f "${HOME}/.config/profile/profile.default" ]; then
+  . "${HOME}/.config/profile/profile.default"
+fi
+

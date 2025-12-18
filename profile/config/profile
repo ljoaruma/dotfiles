@@ -34,6 +34,6 @@ fi
 # set MANPATH
 
 if [ -d "$HOME/.local/share/man" ]; then
-  MANPATH="$HOME/.local/share/man:$MANPATH"
+  MANPATH="$HOME/.local/share/man:${MANPATH:-}"
 fi
 
