@@ -27,7 +27,7 @@ readonly GIT_PREFIX="${HOME}/.local"
 readonly GIT_INSTALLEDLIST="${XDG_STATE_HOME:-${HOME}/.local/state}/git/git-install-list.txt"
 readonly GIT_INSTALLLIST_WORK="${XDG_STATE_HOME:-${HOME}/.local/state}/git/tmp-install"
 
-cat "${GIT_INSTALLEDLIST}" | xargs -d'\n' rm -vf
+cat "${GIT_INSTALLEDLIST}" | xargs -r -d'\n' rm -vf
 
 git switch --detach "${LATEST_VERSION}"
 
@@ -54,4 +54,5 @@ mkdir -vp "${GIT_INSTALLLIST_WORK}"
 make prefix="${GIT_INSTALLLIST_WORK}" install install-doc install-html install-info
 
 find "${GIT_INSTALLLIST_WORK}" -type f | sed 's|'"${GIT_INSTALLLIST_WORK}"'|'"${GIT_PREFIX}"'|g' > "${GIT_INSTALLEDLIST}"
+echo >> "${GIT_INSTALLEDLIST}"
 
