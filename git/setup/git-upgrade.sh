@@ -29,6 +29,8 @@ readonly GIT_INSTALLLIST_WORK="${XDG_STATE_HOME:-${HOME}/.local/state}/git/tmp-i
 
 cat "${GIT_INSTALLEDLIST}" | xargs -r -d'\n' rm -vf
 
+hash -r
+
 git switch --detach "${LATEST_VERSION}"
 
 # ビルド & install
