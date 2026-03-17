@@ -19,21 +19,11 @@ readonly LATEST_VERSION=`git describe --tags --abbrev=0 origin/HEAD`
 echo "install version ${CURRENT_VERSION} -> ${LATEST_VERSION} OK?(press any key)"
 read
 
-# remove old version
-# ---
-# インストールしたファイルのリストを$XDG_STATE_HOME/git/git-install-list.txtに格納しているので、このリストに記載のファイルを削除
-
-readonly GIT_PREFIX="${HOME}/.local"
-readonly GIT_INSTALLEDLIST="${XDG_STATE_HOME:-${HOME}/.local/state}/git/git-install-list.txt"
-readonly GIT_INSTALLLIST_WORK="${XDG_STATE_HOME:-${HOME}/.local/state}/git/tmp-install"
-
-cat "${GIT_INSTALLEDLIST}" | xargs -r -d'\n' rm -vf
-
-hash -r
-
 git switch --detach "${LATEST_VERSION}"
 
-# ビルド & install
+# ビルド
+
+readonly GIT_PREFIX="${HOME}/.local"
 
 make configure
 ./configure --prefix "${GIT_PREFIX}"
@@ -44,6 +34,17 @@ echo "${BUILD_JOBS}"
 
 make --jobs="${BUILD_JOBS}" --load-average=0.8
 make --jobs="${BUILD_JOBS}" --load-average=0.8 all doc info
+
+# remove old version
+# ---
+# インストールしたファイルのリストを$XDG_STATE_HOME/git/git-install-list.txtに格納しているので、このリストに記載のファイルを削除
+
+readonly GIT_INSTALLEDLIST="${XDG_STATE_HOME:-${HOME}/.local/state}/git/git-install-list.txt"
+readonly GIT_INSTALLLIST_WORK="${XDG_STATE_HOME:-${HOME}/.local/state}/git/tmp-install"
+
+cat "${GIT_INSTALLEDLIST}" | xargs -r -d'\n' rm -vf
+
+# インストール
 
 make install install-doc install-html install-info
 
