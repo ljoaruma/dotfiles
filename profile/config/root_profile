@@ -10,3 +10,5 @@ if [ -f "${HOME}/.config/profile/profile.default" ]; then
   . "${HOME}/.config/profile/profile.default"
 fi
 
+. "${HOME}/.local/opt/cargo/env"
+

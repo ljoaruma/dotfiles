@@ -37,3 +37,6 @@ if [ -d "$HOME/.local/share/man" ]; then
   MANPATH="$HOME/.local/share/man:${MANPATH:-}"
 fi
 
+export RUSTUP_HOME=$HOME/.local/opt/rustup
+export CARGO_HOME=$HOME/.local/opt/cargo
+
