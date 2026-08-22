@@ -1,0 +1,23 @@
+FROM archlinux:latest
+
+ARG UID=1000
+ARG GID=1000
+ENV USERNAME=testuser
+ENV GROUPNAME=testuser
+
+RUN \
+  pacman -Syu --noconfirm && \
+  pacman -S --noconfirm \
+    sudo \
+  && \
+  rm -rf /var/cache/pacman/pkg/*
+
+RUN \
+  groupadd --gid "$GID" "${GROUPNAME}" && \
+  useradd --uid "$UID" --gid "$GID" -m -s /bin/bash "${USERNAME}" && \
+  echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+USER ${USERNAME}
+WORKDIR /home/${USERNAME}
+
+CMD ["/bin/bash"]

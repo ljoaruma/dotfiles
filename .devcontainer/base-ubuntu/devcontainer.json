@@ -1,7 +1,7 @@
 {
-  "name": "dotfiles test base container",
-  "dockerComposeFile": "../../test/docker-compose.yaml",
-  "service": "dotfiles-test",
+  "name": "dotfiles test ubuntu container",
+  "dockerComposeFile": "docker-compose.yaml",
+  "service": "dotfiles-test-ubuntu",
   "workspaceFolder": "/home/testuser/dotfiles",
   "remoteUser": "testuser",
   "updateRemoteUserUID": true,

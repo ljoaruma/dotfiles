@@ -1,16 +1,16 @@
 services:
-  dotfiles-test:
+  dotfiles-test-arch:
     build:
       context: ../
-      dockerfile: test/Dockerfile.test
+      dockerfile: base-arch/Dockerfile.test
       args:
         UID: ${UID:-1000}
         GID: ${GROUPS:-1000}
         USERNAME: testuser
         GROUPNAME: testuser
-    image: dotfiles-test-image:latest
+    image: dotfiles-test-arch:latest
     command: /bin/sh -c "while sleep 1000; do :; done"
     volumes:
-      - ..:/home/testuser/dotfiles
+      - ../..:/home/testuser/dotfiles
     working_dir: /home/testuser/dotfiles
     user: testuser
