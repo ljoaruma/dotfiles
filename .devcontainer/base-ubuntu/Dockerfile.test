@@ -1,0 +1,45 @@
+FROM ubuntu:latest
+
+ARG UID=1000
+ARG GID=1000
+ENV USERNAME=testuser
+ENV GROUPNAME=testuser
+
+# パッケージインストール
+RUN apt-get update \
+  && apt-get install -y \
+  automake \
+  sudo \
+  git \
+  build-essential \
+  && rm -rf /var/lib/apt/lists/*
+
+# デフォルトで追加されているubuntuユーザを削除
+# RUN touch /var/mail/ubuntu && chown ubuntu /var/mail/ubuntu && userdel -r ubuntu
+
+#RUN groupadd -g ${GID} ${GROUPNAME} -f \
+#  && useradd -m -s /bin/bash -u ${UID} -g ${GID} ${USERNAME} \
+#  && echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# UID/GIDが重複している場合に8000番台にUID/GIDを変更してからテスト用のユーザの追加を行う
+RUN set -e; \
+  # --- [対策 1] 指定した GID が既に別のグループで使われていれば変更 ---
+  EXISTING_GROUP=$(getent group "$GID" | cut -d: -f1 || true); \
+  if [ -n "$EXISTING_GROUP" ]; then \
+    groupmod -g $((GID + 8000)) "$EXISTING_GROUP"; \
+  fi; \
+  # --- [対策 2] 指定した UID が既に別のユーザーで使われていれば変更 ---
+  EXISTING_USER=$(getent passwd "$UID" | cut -d: -f1 || true); \
+  if [ -n "$EXISTING_USER" ]; then \
+      usermod -u $((UID + 8000)) "$EXISTING_USER"; \
+  fi; \
+  \
+  # --- [対策 3] 安全に目的の GID / UID でグループとユーザーを作成 ---
+  groupadd --gid "$GID" "${GROUPNAME}"; \
+  useradd --uid "$UID" --gid "$GID" -m -s /bin/bash "${USERNAME}"; \
+  echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+USER ${USERNAME}
+WORKDIR /home/${USERNAME}
+
+CMD ["/bin/bash"]

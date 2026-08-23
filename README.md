@@ -64,3 +64,18 @@ XDG Base Directoryに従う
 ---
 * dotfilesで上書きする設定ファイルのバックアップ先 -> $XDG\_DATA\_HOME/dotfiles/stored/[アプリ名]
 
+## 開発
+
+テスト用のDockerファイルを配置しているので、以下のいずれかで利用
+
+### docker compose
+```bash:test.sh
+docker compose -f .devcontainer/base-arch/docker-compose.yaml run -rm base-arch/Dockerfile.test
+docker compose -f .devcontainer/base-ubuntu/docker-compose.yaml run -rm base-ubuntu/Dockerfile.test /bin/bash
+```
+
+### VSCode devcontainer
+
+1. `ctrl + shift + p`で`Dev Containers: Reopen in Container`
+2. クリーンな状態で再度コンテナを動かす場合は`ctrl + shift + p`で`Dev Containers: Rebuild and Reopen in Container`
+

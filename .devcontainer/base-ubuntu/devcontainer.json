@@ -1,0 +1,9 @@
+{
+  "name": "dotfiles test ubuntu container",
+  "dockerComposeFile": "docker-compose.yaml",
+  "service": "dotfiles-test-ubuntu",
+  "workspaceFolder": "/home/testuser/dotfiles",
+  "remoteUser": "testuser",
+  "updateRemoteUserUID": true,
+  "overrideCommand": true
+}
