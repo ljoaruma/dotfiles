@@ -70,10 +70,12 @@ XDG Base Directoryに従う
 
 ### docker compose
 ```bash:test.sh
-docker compose -f test/docker-compose.yaml run -rm /bin/bash
+docker compose -f .devcontainer/base-arch/docker-compose.yaml run -rm base-arch/Dockerfile.test
+docker compose -f .devcontainer/base-ubuntu/docker-compose.yaml run -rm base-ubuntu/Dockerfile.test /bin/bash
 ```
 
 ### VSCode devcontainer
 
 1. `ctrl + shift + p`で`Dev Containers: Reopen in Container`
 2. クリーンな状態で再度コンテナを動かす場合は`ctrl + shift + p`で`Dev Containers: Rebuild and Reopen in Container`
+
