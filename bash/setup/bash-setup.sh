@@ -1,6 +1,21 @@
 #!/bin/bash
 # vim: set expandtab ts=2 fenc=utf-8 ff=unix filetype=sh :
 
+#
+# bash_history                    -> $HOME/${XDG_STATE_HOME:-.local/state}/bash/bash_history
+#
+# $HOME
+# |- .bashrc             --[source]> $HOME/.config/bash
+#                                 -> $HOME/${XDG_DATA_HOME:-.local/share}/dotfiles/stored
+# bash
+# |- setup
+# |   `- bash-setup.sh  // self
+# |- config                      ..> $HOME/.config/bash
+#    |- bashrc           --[source]> bash/config/bashrc.d/*.bash
+#    `- bashrc.d
+#       |- *.bash       // dropin
+#       `- *.d/*        // alt dropin
+
 # エラー発生時は即中断
 set -eu -o pipefail
 
