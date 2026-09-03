@@ -1,5 +1,2 @@
-echo "test.d/lang"
-echo "${BASH_SOURCE[@]}"
-
 export LANG=ja_JP.UTF-8
 export LANGUAGE=ja
