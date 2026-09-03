@@ -8,6 +8,9 @@ bash/switches/enable/*
 profile/switches/enable/*
 !profile/switches/enable/.gitkeep
 
+# bash additional rc
+bash/config/bashrc.d/*.d/*
+
 # vim
 ## Swap files
 [._]*.s[a-v][a-z]
