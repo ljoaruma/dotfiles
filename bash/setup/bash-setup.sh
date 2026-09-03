@@ -23,8 +23,9 @@ set -eu -o pipefail
 
 readonly BASH_STATE_="${XDG_STATE_HOME:-${HOME}/.local/state}/bash"
 mkdir -vp "${BASH_STATE_}"
-if [ -f $HOME/.bash_history -a -d "${BASH_STATE_}" ]; then
-  history -a
+touch "${BASH_STATE_}/bash_history"
+history -a "${BASH_STATE_}/bash_history"
+if [ -f $HOME/.bash_history ]; then
   cat $HOME/.bash_history >> "${BASH_STATE_}/bash_history"
   rm $HOME/.bash_history
 fi
