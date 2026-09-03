@@ -80,14 +80,12 @@ __add_front_mypath () {
 if [[ -d "$(dirname "${BASH_SOURCE:-$0}")/bashrc.d" ]]; then
   for conf in "$(dirname "${BASH_SOURCE:-$0}")/bashrc.d"/*.bash; do
     if [[ -r "$conf" ]]; then
-      echo "source bashrc.d $conf"
       source "$conf"
     fi
   done
 
   for conf in "$(dirname "${BASH_SOURCE:-$0}")/bashrc.d/"*.d/*; do
     if [[ -r "$conf" ]]; then
-      echo "source bashrc.d/*.d $conf"
       source "$conf"
     fi
   done
